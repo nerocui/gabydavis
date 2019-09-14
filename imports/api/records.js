@@ -6,7 +6,7 @@ import algoliasearch from 'algoliasearch';
 
 const key = Meteor.settings.apis.filter(api => api.id === "ALGOLIA")[0].value;
 const client = algoliasearch(key.algoliaApplicationID, key.algoliaAdminKey);
-const userIndex = client.initIndex('gaby_davis_records');
+const index = client.initIndex('gaby_davis_records');
 
 Meteor.methods({
 	[API.RECORD_API.INSERT](record) {
@@ -14,7 +14,7 @@ Meteor.methods({
 			throw new Meteor.Error("Not authenticated");
 		}
 		const _id = Records.insert({record});
-		userIndex.addObject({
+		index.addObject({
 			objectID: _id,
 			...record
 		});
@@ -25,6 +25,12 @@ Meteor.methods({
 		}
 		const {people} = Records.findOne({_id});
 		Records.update({_id}, {$set: {people: [...people, person]}});
+		index.saveObject({
+			objectID: _id,
+			...Records.findOne({_id}),
+		}, () => {
+			console.log("Fail to update record in algolia");
+		});
 	},
 	[API.RECORD_API.REMOVE_PERSON](_id, person_id) {
 		if (!isAuthenticated()) {
@@ -36,6 +42,12 @@ Meteor.methods({
 		}
 		const {people} = record;
 		Records.update({_id}, {$set: {people: people.filter(person => person._id !== person_id)}});
+		index.saveObject({
+			objectID: _id,
+			...Records.findOne({_id}),
+		}, () => {
+			console.log("Fail to update record in algolia");
+		});
 	},
 	[API.RECORD_API.MODIFY](_id, field, value) {
 		if (!isAuthenticated()) {
@@ -44,6 +56,12 @@ Meteor.methods({
 		let mod = new Object();
 		mod[field] = value;
 		Records.update({_id}, {$set: mod});
-	}
+		index.saveObject({
+			objectID: _id,
+			...Records.findOne({_id}),
+		}, () => {
+			console.log("Fail to update record in algolia");
+		});
+	},
 });
 
