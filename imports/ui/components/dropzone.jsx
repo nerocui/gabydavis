@@ -2,8 +2,13 @@ import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
 const MyDropzone = ({
-                      handleChange, onChange, as, wrapperStyle, activeText, inActiveText,
-                    }) => {
+  handleChange,
+  onChange,
+  as,
+  wrapperStyle,
+  activeText,
+  inActiveText
+}) => {
   const onDrop = useCallback(acceptedFiles => {
     handleChange(acceptedFiles, onChange, as);
   }, []);
@@ -12,7 +17,10 @@ const MyDropzone = ({
   return (
     <div {...getRootProps({ className: wrapperStyle })}>
       <input {...getInputProps()} />
-      <p className="element--dropzone__text">
+      <p
+        className="element--dropzone__text"
+        style={{ border: "2px dashed grey" }}
+      >
         {isDragActive ? activeText : inActiveText}
       </p>
     </div>

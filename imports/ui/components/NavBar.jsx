@@ -76,6 +76,14 @@ const userCommandBarItems = (name, settingOnClick, handleLogout) => [
             iconName: "Import"
           },
           onClick: settingOnClick
+        },
+        {
+          key: "export",
+          name: "Export",
+          iconProps: {
+            iconName: "Export"
+          },
+          onClick: settingOnClick
         }
       ]
     }
@@ -164,7 +172,7 @@ class NavBar extends React.Component {
           onDismiss={this.closeSettings}
           isBlocking={false}
         >
-          <Settings closeModal={this.closeModal} />
+          <Settings closeModal={this.closeSettings} />
         </Modal>
         <Modal
           isOpen={this.state.isEditorOpen}
