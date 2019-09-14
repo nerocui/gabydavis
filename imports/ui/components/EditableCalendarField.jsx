@@ -20,33 +20,37 @@ const DayPickerStrings = {
   closeButtonAriaLabel: 'Close'
 };
 
-export interface ICalendarButtonExampleState {
-  showCalendar: boolean;
-  selectedDate: Date | null;
-}
+// export interface ICalendarButtonExampleState {
+//   showCalendar: boolean;
+//   selectedDate: Date | null;
+// }
 
-export interface ICalendarButtonExampleProps {
-  isDayPickerVisible?: boolean;
-  isMonthPickerVisible?: boolean;
-  highlightCurrentMonth?: boolean;
-  highlightSelectedMonth?: boolean;
-  buttonString?: string;
-  showMonthPickerAsOverlay?: boolean;
-  showGoToToday?: boolean;
-}
+// export interface ICalendarButtonExampleProps {
+//   isDayPickerVisible?: boolean;
+//   isMonthPickerVisible?: boolean;
+//   highlightCurrentMonth?: boolean;
+//   highlightSelectedMonth?: boolean;
+//   buttonString?: string;
+//   showMonthPickerAsOverlay?: boolean;
+//   showGoToToday?: boolean;
+// }
 
-export class CalendarButtonExample extends React.Component<ICalendarButtonExampleProps, ICalendarButtonExampleState> {
-  public static defaultProps: ICalendarButtonExampleProps = {
+export class CalendarButtonExample extends React.Component {
+  static defaultProps = {
     showMonthPickerAsOverlay: false,
     isDayPickerVisible: true,
     isMonthPickerVisible: true,
     showGoToToday: true,
-    buttonString: 'Click for Calendar'
+    buttonString: 'Click for Calendar',
+    highlightCurrentMonth: false,
+    highlightSelectedMonth: false,
   };
 
-  private _calendarButtonElement: HTMLElement;
+  // private _calendarButtonElement: HTMLElement;
 
-  public constructor(props: ICalendarButtonExampleProps) {
+  constructor(props) {
+    // props = ICalendarButtonExampleProps(props);
+
     super(props);
 
     this.state = {
@@ -59,10 +63,10 @@ export class CalendarButtonExample extends React.Component<ICalendarButtonExampl
     this._onSelectDate = this._onSelectDate.bind(this);
   }
 
-  public render(): JSX.Element {
+  render() {
     return (
       <div>
-        <div ref={calendarBtn => (this._calendarButtonElement = calendarBtn!)}>
+        <div ref={calendarBtn => {if (calendarBtn != null) this._calendarButtonElement = calendarBtn}}>
           <DefaultButton
             onClick={this._onClick}
             text={!this.state.selectedDate ? this.props.buttonString : this.state.selectedDate.toLocaleDateString()}
@@ -84,7 +88,7 @@ export class CalendarButtonExample extends React.Component<ICalendarButtonExampl
                 onSelectDate={this._onSelectDate}
                 onDismiss={this._onDismiss}
                 isMonthPickerVisible={this.props.isMonthPickerVisible}
-                value={this.state.selectedDate!}
+                value={this.state.selectedDate != null}
                 firstDayOfWeek={DayOfWeek.Sunday}
                 strings={DayPickerStrings}
                 isDayPickerVisible={this.props.isDayPickerVisible}
@@ -100,22 +104,22 @@ export class CalendarButtonExample extends React.Component<ICalendarButtonExampl
     );
   }
 
-  private _onClick(event: any): void {
-    this.setState((prevState: ICalendarButtonExampleState) => {
+  _onClick(event) {
+    this.setState((prevState) => {
       prevState.showCalendar = !prevState.showCalendar;
       return prevState;
     });
   }
 
-  private _onDismiss(): void {
-    this.setState((prevState: ICalendarButtonExampleState) => {
+ _onDismiss() {
+    this.setState((prevState) => {
       prevState.showCalendar = false;
       return prevState;
     });
   }
 
-  private _onSelectDate(date: Date): void {
-    this.setState((prevState: ICalendarButtonExampleState) => {
+  _onSelectDate() {
+    this.setState((prevState) => {
       prevState.showCalendar = false;
       prevState.selectedDate = date;
       return prevState;
