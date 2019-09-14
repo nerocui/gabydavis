@@ -9,9 +9,7 @@ const useRecordsAPI = (recordTemplate) => {
 			if (!isAuthenticated()) {
 				throw new Meteor.Error("Not authenticated");
 			}
-			const { people, ...rest } = record;
-			people.map(person => Meteor.call(API.PEOPLE_API.INSERT, person));
-			Records.insert({...rest});
+			Records.insert({record});
 		},
 	});
 };
