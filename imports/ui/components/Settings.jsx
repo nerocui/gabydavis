@@ -85,7 +85,6 @@ class Settings extends React.Component {
             <PrimaryButton
               className="modal--setting__closeButton"
               text="x"
-              style={closeButtonStyle}
               onClick={() => closeModal()}
             />
           </div>
