@@ -111,6 +111,7 @@ class NavBar extends React.Component {
 
 	onAddRow() {
 		console.log("add row");
+		this.openEditor();
 	}
 
 	onDeleteRow() {
@@ -156,7 +157,7 @@ class NavBar extends React.Component {
 					onDismiss={this.closeEditor}
 					isBlocking={false}
 				>
-					<Editor />
+					<Editor closeModal={this.closeEditor}/>
 				</Modal>
 			</div>
 		);
