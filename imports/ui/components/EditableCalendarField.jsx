@@ -36,21 +36,7 @@ const DayPickerStrings = {
 // }
 
 export class CalendarButtonExample extends React.Component {
-  static defaultProps = {
-    showMonthPickerAsOverlay: false,
-    isDayPickerVisible: true,
-    isMonthPickerVisible: true,
-    showGoToToday: true,
-    buttonString: 'Click for Calendar',
-    highlightCurrentMonth: false,
-    highlightSelectedMonth: false,
-  };
-
-  // private _calendarButtonElement: HTMLElement;
-
   constructor(props) {
-    // props = ICalendarButtonExampleProps(props);
-
     super(props);
 
     this.state = {
@@ -61,6 +47,28 @@ export class CalendarButtonExample extends React.Component {
     this._onClick = this._onClick.bind(this);
     this._onDismiss = this._onDismiss.bind(this);
     this._onSelectDate = this._onSelectDate.bind(this);
+  }
+
+  _onClick() {
+    this.setState((prevState) => {
+      prevState.showCalendar = !prevState.showCalendar;
+      return prevState;
+    });
+  }
+
+ _onDismiss() {
+    this.setState((prevState) => {
+      prevState.showCalendar = false;
+      return prevState;
+    });
+  }
+
+  _onSelectDate() {
+    this.setState((prevState) => {
+      prevState.showCalendar = false;
+      prevState.selectedDate = date;
+      return prevState;
+    });
   }
 
   render() {
@@ -102,27 +110,5 @@ export class CalendarButtonExample extends React.Component {
         )}
       </div>
     );
-  }
-
-  _onClick(event) {
-    this.setState((prevState) => {
-      prevState.showCalendar = !prevState.showCalendar;
-      return prevState;
-    });
-  }
-
- _onDismiss() {
-    this.setState((prevState) => {
-      prevState.showCalendar = false;
-      return prevState;
-    });
-  }
-
-  _onSelectDate() {
-    this.setState((prevState) => {
-      prevState.showCalendar = false;
-      prevState.selectedDate = date;
-      return prevState;
-    });
   }
 }
