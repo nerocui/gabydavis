@@ -1,12 +1,13 @@
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
-const MyDropzone = ({
-                      handleChange, onChange, as, wrapperStyle, activeText, inActiveText,
-                    }) => {
+const Dropzone = ({ handleChange, wrapperStyle, onChange, as, activeText, inActiveText}) => {
+
   const onDrop = useCallback(acceptedFiles => {
+    console.log("onDrop being called!!!!");
     handleChange(acceptedFiles, onChange, as);
   }, []);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
@@ -19,4 +20,4 @@ const MyDropzone = ({
   );
 };
 
-export default MyDropzone;
+export default Dropzone;
