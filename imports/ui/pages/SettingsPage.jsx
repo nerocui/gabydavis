@@ -1,8 +1,9 @@
 import React from 'react';
-import Dropzone from "./dropzone.jsx";
+import Dropzone from "../components/dropzone.jsx";
 import { DefaultButton } from 'office-ui-fabric-react';
+import xlsx from "xlsx";
 
-class Settings extends React.Component {
+class SettingsPage extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -10,18 +11,17 @@ class Settings extends React.Component {
 			dropZoneText: "Click or drop file(s) here to start the import..."
 		};
 		this.handleChange = this.handleChange.bind(this);
-		this.onChange = this.onChange.bind(this);
 	}
 
-	handleChange(event) {
-		console.log("running dropHandler!!!!");
-		// results.forEach(result => {
-		// 	const [e, file] = result;
-		// });
-	}
-
-	onChange(event) {
-
+	handleChange(files) {
+		files.forEach(file => {
+			try {
+				const data = xlsx.read(file, { type:"buffer" });
+				console.log(data);
+			} catch(e) {
+				console.log(e);
+			}
+		});
 	}
 
 	exportFile() {
@@ -33,12 +33,10 @@ class Settings extends React.Component {
 		return (
 			<div className="modal--setting__container">
 				<Dropzone
-					as="binary"
 					wrapperStyle="component--admin__import"
 					inActiveText="Click or drop file(s) here to start the import..."
 					activeText="Drop here to start the import..."
 					handleChange={this.handleChange}
-					onChange={this.onChange}
 				/>
 				<DefaultButton text="Export" onClick={this.exportFile} allowDisabledFocus />
 			</div>
@@ -46,4 +44,4 @@ class Settings extends React.Component {
 	}
 };
 
-export default Settings;
+export default SettingsPage;

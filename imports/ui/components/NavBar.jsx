@@ -8,7 +8,6 @@ import {
 } from "office-ui-fabric-react";
 import { connect } from "react-redux";
 import { Accounts } from "meteor/accounts-base";
-import Settings from "../components/Settings";
 import Editor from "../components/Editor";
 
 initializeIcons();
@@ -164,7 +163,6 @@ class NavBar extends React.Component {
           onDismiss={this.closeSettings}
           isBlocking={false}
         >
-          <Settings closeModal={this.closeModal} />
         </Modal>
         <Modal
           isOpen={this.state.isEditorOpen}
