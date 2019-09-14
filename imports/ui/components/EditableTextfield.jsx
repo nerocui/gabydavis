@@ -36,7 +36,7 @@ class EditableTextfield extends React.Component {
     super(props);
     this.state = {
       editing: false,
-      editable: ""
+      content: ""
     };
     this.renderTextblock = this.renderTextblock.bind(this);
     this.renderTextfield = this.renderTextfield.bind(this);
@@ -49,7 +49,7 @@ class EditableTextfield extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     this.setState({ editing: false });
-    this.props.onValueSubmit(this.state.editable);
+    this.props.onValueSubmit(this.state.content);
   }
 
   onCancel(e) {
@@ -59,11 +59,11 @@ class EditableTextfield extends React.Component {
 
   onChange(e) {
     e.preventDefault();
-    this.setState({ editable: e.target.value });
+    this.setState({ content: e.target.value });
   }
 
   onEdit() {
-    this.setState({ editing: true, editable: this.props.value });
+    this.setState({ editing: true, content: this.props.value });
   }
 
   handleClickOutside(e) {
@@ -85,7 +85,7 @@ class EditableTextfield extends React.Component {
       <div className="element--text__textfield">
         <form onSubmit={this.onSubmit}>
           <input
-            value={this.state.editable}
+            value={this.state.content}
             onChange={this.onChange}
             autoFocus
           />
