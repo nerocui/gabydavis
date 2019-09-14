@@ -13,7 +13,8 @@ class Dropdown extends Component {
   }
 
   renderDropDown() {
-    const { options, selected } = this.state;
+    const { options } = this.state;
+    const selected = this.state.selected || "Please select...";
     return (
       <Select label="something" value="12" onChange={this.handleSelect}>
         <MenuItem disabled value="">
