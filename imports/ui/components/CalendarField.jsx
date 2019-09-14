@@ -13,13 +13,14 @@ import {
  *  - onDateSubmit (function)
  */
 
-// Example usage:
-// 
-// <CalendarField 
-//   fieldLabel='heaven date'
-//   selectedDate={new Date()}
-//   onDateSubmit={this.onFieldSubmit} // function to be declared within the file
-// />
+/** Example usage:
+
+<CalendarField 
+  fieldLabel='heaven date'
+  selectedDate={new Date()}
+  onDateSubmit={this.onFieldSubmit} // function to be declared within the file
+/>
+ */
 
 export default function MaterialUIPickers(props) {
   const [selectedDate, setSelectedDate] = React.useState(props.selectedDate);
