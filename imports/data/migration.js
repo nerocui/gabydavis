@@ -34,5 +34,22 @@ export default class DataMigration {
 				Keys.remove();
 			}
 		});
+		Migrations.add({
+			version: 2,
+			up: () => {
+				const { apis } = Meteor.settings;
+				if (apis && apis.length !== 0) {
+					apis.map(api => {
+						const existingApi = Keys.findOne({_id: api.id});
+						if (!existingApi) {
+							Keys.insert({_id: api.id, value: api.value});
+						}
+					})
+				}
+			},
+			down: () => {
+				Keys.remove();
+			}
+		});
 	}
 }

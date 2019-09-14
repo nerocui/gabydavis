@@ -16,8 +16,25 @@ class SettingsPage extends React.Component {
 	handleChange(files) {
 		files.forEach(file => {
 			try {
-				const data = xlsx.read(file, { type:"buffer" });
-				console.log(data);
+				// Create A File Reader HTML5
+				const reader = new FileReader();
+				reader.onload = function(e) {
+					const rawData = e.target.result;
+					const parsedData = xlsx.read(rawData, {type: 'binary'});
+					// If we have data from the imported excel sheet
+					if (parsedData.SheetNames && parsedData.SheetNames.length > 0) {
+						parsedData.SheetNames.forEach(sheetName => {
+							for (const cell in parsedData.Sheets[sheetName]) {
+								// types are denoted by n = number and s = string
+								// v is the value gotten from the excel sheet
+								const value = parsedData.Sheets[sheetName][cell].v;
+								const type = parsedData.Sheets[sheetName][cell].t;
+								//console.log(parsedData.Sheets[sheetName][cell]);
+							}
+						})
+					}
+				};
+				reader.readAsBinaryString(file);
 			} catch(e) {
 				console.log(e);
 			}

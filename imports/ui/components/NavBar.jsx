@@ -76,6 +76,14 @@ const userCommandBarItems = (name, routerHistory, handleLogout) => [
             iconName: "Import"
           },
           onClick: routerHistory
+        },
+        {
+          key: "export",
+          name: "Export",
+          iconProps: {
+            iconName: "Export"
+          },
+          onClick: routerHistory
         }
       ]
     }
