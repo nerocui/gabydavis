@@ -1,0 +1,46 @@
+{
+  "name": "boilerplate",
+  "private": true,
+  "scripts": {
+    "start": "meteor run",
+    "test": "meteor test --once --driver-package meteortesting:mocha",
+    "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
+    "visualize": "meteor --production --extra-packages bundle-visualizer"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.3.4",
+    "@material-ui/core": "^4.3.2",
+    "@material-ui/icons": "^4.2.1",
+    "algoliasearch": "^3.34.0",
+    "bcrypt": "^3.0.6",
+    "classnames": "^2.2.6",
+    "firebase": "^6.6.0",
+    "history": "^4.10.1",
+    "meteor-node-stubs": "^0.4.1",
+    "office-ui-fabric-react": "^7.33.0",
+    "react": "^16.5.0",
+    "react-bingmaps": "^3.6.1",
+    "react-dom": "^16.5.0",
+    "react-firebase-file-uploader": "^2.4.2",
+    "react-google-maps": "^9.4.5",
+    "react-html5-camera-photo": "^1.4.3",
+    "react-paypal-checkout": "^1.0.9",
+    "react-pose": "^4.0.8",
+    "react-redux": "^7.1.1",
+    "react-router-dom": "^5.0.1",
+    "react-transition-group": "^4.2.2",
+    "recompose": "^0.30.0",
+    "redux": "^4.0.4",
+    "simpl-schema": "^1.5.5",
+    "styled-components": "^4.3.2",
+    "uniqid": "^5.0.3",
+    "xlsx": "^0.15.1"
+  },
+  "meteor": {
+    "mainModule": {
+      "client": "client/main.jsx",
+      "server": "server/main.js"
+    },
+    "testModule": "tests/main.js"
+  }
+}

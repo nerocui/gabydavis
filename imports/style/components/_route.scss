@@ -1,0 +1,27 @@
+.page {
+	overflow-y: auto;
+	position: fixed;
+	top: 0;
+	-webkit-overflow-scrolling: touch;
+	transition-duration: 600ms;
+	height: 100vh;
+	width: 100vw;
+}
+
+.page-enter {
+	transform: translate(0, 100%);
+}
+
+.page-enter-active {
+	transform: translate(0, 0);
+}
+
+.page-exit {
+	transform: translate(0, 100%);
+}
+
+.page-exit .page__inner {
+	opacity: 0;
+	transform: scale(0.9);
+	transition: transform 600ms ease-in-out, opacity 600ms ease-in-out;
+}

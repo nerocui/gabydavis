@@ -1,0 +1,6 @@
+node_modules/
+/imports/config/api_key.js
+/imports/config/bing_map_api.js
+/imports/config/google_api.js
+/imports/config/paypal.js
+settings.json

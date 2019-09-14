@@ -1,0 +1,36 @@
+.page--authpage-container {
+	position: relative;
+}
+
+.component--authpage-form {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	width: 100%;
+	.profile_pic_container {
+		width: 4rem;
+		height: 4rem;
+		padding-left: 50%;
+		margin: 1rem 0;
+		img {
+			transform: translateX(-50%);
+			border: .1rem solid black;
+			border-radius: .5rem;
+			width: inherit;
+			height: inherit;
+			cursor: pointer;
+			transition: 400ms all;
+			&:hover {
+				-webkit-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+				-moz-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+				box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+			}
+		}
+	}
+}
+
+.form-input{
+	margin-bottom: 1rem;
+}

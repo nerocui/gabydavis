@@ -1,0 +1,15 @@
+{
+  "short_name": "Boilerplate",
+  "name": "Meteor Hackathon Boilerplate",
+  "icons": [
+    {
+      "src":"",
+      "sizes": "",
+      "type": ""
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#000",
+  "Theme_color": "#536878",
+  "display": "standalone"
+}
