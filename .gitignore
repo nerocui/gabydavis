@@ -5,3 +5,4 @@ node_modules/
 /imports/config/paypal.js
 settings.json
 package-lock.json
+.DS_STORE

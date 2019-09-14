@@ -24,6 +24,7 @@
     "react": "^16.5.0",
     "react-bingmaps": "^3.6.1",
     "react-dom": "^16.5.0",
+    "react-dropzone": "^10.1.8",
     "react-firebase-file-uploader": "^2.4.2",
     "react-google-maps": "^9.4.5",
     "react-html5-camera-photo": "^1.4.3",
