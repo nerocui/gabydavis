@@ -4,3 +4,4 @@ node_modules/
 /imports/config/google_api.js
 /imports/config/paypal.js
 settings.json
+package-lock.json
