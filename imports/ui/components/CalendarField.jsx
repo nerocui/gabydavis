@@ -1,43 +1,48 @@
-import "date-fns";
-import React from "react";
-import DateFnsUtils from "@date-io/date-fns";
+import 'date-fns';
+import React from 'react';
+import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker
-} from "@material-ui/pickers";
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
-class CalendarField extends React.Component {
-  constructor(props) {
-    super(props);
-    this.selectedDate = this.props.selectedDate;
+/**
+ * Props must include:
+ *  - fieldLabel (string)
+ *  - selectedDate (Date)
+ *  - onDateSubmit (function)
+ */
 
-    this.state = {
-      selectedDate: this.props.selectedDate
-    };
+// Example usage:
+// 
+// <CalendarField 
+//   fieldLabel='heaven date'
+//   selectedDate={new Date()}
+//   onDateSubmit={this.onFieldSubmit} // function to be declared within the file
+// />
+
+export default function MaterialUIPickers(props) {
+  const [selectedDate, setSelectedDate] = React.useState(props.selectedDate);
+
+  function handleDateChange(date) {
+    setSelectedDate(date);
+    props.onDateSubmit(date);
   }
 
-  handleDateChange(date) {
-    this.setState({ selectedDate: date });
-  }
-
-  render() {
-    return (
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+  return (
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <KeyboardDatePicker
           disableToolbar
           variant="inline"
           format="MM/dd/yyyy"
           id="date-picker-inline"
-          label="Date picker inline"
-          value={this.selectedDate}
+          label={props.fieldLabel}
+          value={selectedDate}
           onChange={handleDateChange}
           KeyboardButtonProps={{
-            "aria-label": "change date"
+            'aria-label': 'change date',
           }}
         />
-      </MuiPickersUtilsProvider>
-    );
-  }
+    </MuiPickersUtilsProvider>
+  );
 }
-
-export default CalendarField;
