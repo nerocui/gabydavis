@@ -6,22 +6,40 @@ const theme = createMuiTheme();
 
 const Wrapper = styled("div")({
   width: "350px",
-  padding: "20px"
+  padding: "10px"
 });
 
-class App extends React.Component {
+/**
+ * Props must include:
+ *  - startDate (string)
+ *  - endDate (Date)
+ *  - onDateRangeSubmit (function)
+ */
+
+/** Example usage:
+        <DateRangePicker
+          startDate={'2019-09-04'}
+          endDate={'2019-09-14'}
+          onDateRangeSubmit={...}
+        />
+ */
+
+class MyDateRangePicker extends React.Component {
   state = {
-    fromDate: null,
-    toDate: null
+    fromDate: this.props.startDate,
+    toDate: this.props.endDate
   };
-  /*  2. Add state handler */
-  _handleDateRangeChange = update => this.setState(update);
+
+  _handleDateRangeChange = update => {
+    this.setState(update)
+    // TODO: uncomment once onDateRangeSubmit implemented
+    // this.props.onDateRangeSubmit(update);
+  };
 
   render() {
     return (
       <ThemeProvider theme={theme}>
         <Wrapper>
-          {/* 3. Add the material date range picker in your project */}
           <DateRangePicker
             fromDate={this.state.fromDate}
             toDate={this.state.toDate}
@@ -35,4 +53,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default MyDateRangePicker;
