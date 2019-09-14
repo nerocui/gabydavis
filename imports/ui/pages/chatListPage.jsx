@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { ReactBingmaps } from "react-bingmaps";
 import PaypalBtn from "react-paypal-checkout";
 import KEYID from "../../constants/key_id";
-import EditableCalendarField from "../components/EditableCalendarField";
 
 const boundary = {
   location: ["chennai"],
@@ -33,15 +32,6 @@ const ChatListPage = ({ isMapEnabled, isPaymentEnabled, keys }) => {
 
   return (
     <div>
-      <EditableCalendarField
-        showMonthPickerAsOverlay={false}
-        isDayPickerVisible={true}
-        isMonthPickerVisible={true}
-        showGoToToday={true}
-        buttonString={"Click for Calendar"}
-        highlightCurrentMonth={false}
-        highlightSelectedMonth={false}
-      />
       <div>chat list page</div>
       {isMapEnabled && bingApi ? (
         <div className="bingmap">
