@@ -75,6 +75,14 @@ const userCommandBarItems = (name, settingOnClick, handleLogout) => [
             iconName: "Import"
           },
           onClick: settingOnClick
+        },
+        {
+          key: "export",
+          name: "Export",
+          iconProps: {
+            iconName: "Export"
+          },
+          onClick: settingOnClick
         }
       ]
     }
