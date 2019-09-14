@@ -9,6 +9,7 @@ import {
 import { connect } from "react-redux";
 import { Accounts } from "meteor/accounts-base";
 import Editor from "../components/Editor";
+import { withRouter } from "react-router-dom";
 
 initializeIcons();
 
@@ -29,7 +30,7 @@ const items = (onAddRow, onDeleteRow) => {
   ];
 };
 
-const userCommandBarItems = (name, settingOnClick, handleLogout) => [
+const userCommandBarItems = (name, routerHistory, handleLogout) => [
   {
     key: "userTab",
     name,
@@ -74,7 +75,7 @@ const userCommandBarItems = (name, settingOnClick, handleLogout) => [
           iconProps: {
             iconName: "Import"
           },
-          onClick: settingOnClick
+          onClick: routerHistory
         }
       ]
     }
@@ -100,6 +101,7 @@ class NavBar extends React.Component {
     this.closeEditor = this.closeEditor.bind(this);
     this.openSettings = this.openSettings.bind(this);
     this.openEditor = this.openEditor.bind(this);
+    this.navigateToSettings = this.navigateToSettings.bind(this);
   }
 
   closeSettings() {
@@ -112,6 +114,14 @@ class NavBar extends React.Component {
 
   openSettings() {
     this.setState({ isSettingsOpen: true });
+  }
+
+  closeSettings() {
+    this.setState({ isSettingsOpen: false });
+  }
+
+  navigateToSettings() {
+    this.props.history.push("/settings");
   }
 
   openEditor() {
@@ -150,7 +160,7 @@ class NavBar extends React.Component {
                 <CommandBar
                   items={userCommandBarItems(
                     username,
-                    this.openSettings,
+                    this.navigateToSettings,
                     this.handleLogout
                   )}
                 />
@@ -162,8 +172,7 @@ class NavBar extends React.Component {
           isOpen={this.state.isSettingsOpen}
           onDismiss={this.closeSettings}
           isBlocking={false}
-        >
-        </Modal>
+        ></Modal>
         <Modal
           isOpen={this.state.isEditorOpen}
           onDismiss={this.closeEditor}
@@ -182,4 +191,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(NavBar);
+const ConnectedNavBar = connect(mapStateToProps)(NavBar);
+
+export default withRouter(({ history }) => (
+  <ConnectedNavBar history={history} />
+));
