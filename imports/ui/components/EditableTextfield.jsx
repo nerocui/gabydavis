@@ -2,6 +2,35 @@ import React from 'react';
 import onClickOutside from 'react-onclickoutside';
 import { DefaultButton, PrimaryButton } from 'office-ui-fabric-react';
 
+// import { withStyles, makeStyles } from '@material-ui/core/styles';
+// import TextField from '@material-ui/core/TextField';
+
+// const CssTextField = withStyles({
+//     root: {
+//       '& .MuiOutlinedInput-root': {
+//         '& fieldset': {
+//           borderColor: 'white',
+//         },
+//         '&:hover fieldset': {
+//           borderColor: 'gray',
+//         },
+//         '&.Mui-focused fieldset': {
+//           borderColor: 'purple',
+//         },
+//       },
+//     },
+// })(TextField);
+
+// const useStyles = makeStyles(theme => ({
+//   root: {
+//     display: 'flex',
+//     flexWrap: 'wrap',
+//   },
+//   margin: {
+//     margin: theme.spacing(1),
+//   },
+// }));
+
 class EditableTextfield extends React.Component {
 	constructor(props) {
 		super(props);
@@ -65,7 +94,9 @@ class EditableTextfield extends React.Component {
 		);
 	}
 
-	render() {
+  render() {
+    //const classes = useStyles();
+    
 		return (
 			<div className="component--input__editable-textfield">
 				{this.state.editing ? this.renderTextfield() : this.renderTextblock()}
