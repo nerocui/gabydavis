@@ -2,6 +2,8 @@ import React from 'react';
 import Dropzone from "../components/dropzone.jsx";
 import { DefaultButton } from 'office-ui-fabric-react';
 import xlsx from "xlsx";
+import { Meteor } from "meteor/meteor";
+import ApiContastants from "../../constants/methods.js";
 
 import recordParser from "../../util/recordParser.js";
 
@@ -36,15 +38,30 @@ class SettingsPage extends React.Component {
               const parsedSheet = xlsx.utils.sheet_to_json(sheet);
 							for (const row in parsedSheet) {
 								const record = new Object();
+								record["People"] = [];
 								for (const key in parsedSheet[row]) {
-									record[key] = row[key];
+									if (key == "Child") {
+										record["People"].push(recordParser.parseChild(parsedSheet[row][key]));
+									} else if (key ==  "Parents") {
+										// record["People"].push([...record["People"],[recordParser.parseParents(parsedSheet[row][key])]]);
+										record["People"] = [...record["People"], ...recordParser.parseParents(parsedSheet[row][key])];
+									} else if (key == "Siblings") {
+										record["People"] = [...record["People"], ...recordParser.parseSiblings(parsedSheet[row][key])];
+									} else if (key == "Social Worker") {
+										record["People"].push(recordParser.parseSocialWorker(parsedSheet[row][key]));
+									} else {
+										record[key] = parsedSheet[row][key];
+									}
 								}
 								records.push(record);
 							}
 						});
 
 						// Make meteor call
-						console.log(records);
+						//console.log(records);
+						for (const key in records) {
+							Meteor.call(ApiContastants.RECORD_API.INSERT, records[key]);
+						}
 					}
 				};
 				reader.readAsBinaryString(file);

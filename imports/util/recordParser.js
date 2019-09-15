@@ -1,6 +1,8 @@
+import UniqueId from "uniqid";
+
 function parseName(name, role) {
   const [firstName, lastName] = name.split(" ");
-  return { firstName, lastName, role };
+  return { firstName, lastName, role, "_id": UniqueId()};
 }
 
 export function parseChild(name) {
@@ -18,7 +20,7 @@ export function parseParents(name) {
       parentObjects.push(parseName(parent, "parent"));
       return;
     }
-    parentObjects.push({ firstName: parent, lastName: null, role: "parent" });
+    parentObjects.push({ firstName: parent, lastName: null, role: "parent", "_id": UniqueId() });
   });
   return parentObjects;
 }
@@ -29,12 +31,12 @@ export function parseSocialWorker(name) {
 
 function parseSibling(string) {
   const [name, age] = string.split('age');
-  console.log(name);
+  //console.log(name);
   return parseName(name.trim(), 'sibling');
 }
 
 export function parseSiblings(name) {
   const siblings = name.split(',');
-  console.log(siblings);
+  //console.log(siblings);
   return siblings.map(element => parseSibling(element));
 }
