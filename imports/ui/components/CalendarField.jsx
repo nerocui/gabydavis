@@ -35,7 +35,7 @@ export default function MaterialUIPickers(props) {
         <KeyboardDatePicker
           disableToolbar
           variant="inline"
-          format="MM/dd/yyyy"
+          format="yyyy/MM/dd"
           id="date-picker-inline"
           label={props.fieldLabel}
           value={selectedDate}

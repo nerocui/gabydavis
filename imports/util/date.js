@@ -17,7 +17,7 @@ export const getDateRange = (startDate, endDate) => {
     dateRange = `${Math.round(years)} years`;
   } else if (Math.round(months) >= 1) {
     dateRange = `${Math.round(months)} months`;
-  } else if (Math.round(weeks)) {
+  } else if (Math.round(weeks) >= 1) {
     dateRange = `${Math.round(weeks)} weeks`;
   } else {
     dateRange = `${Math.round(days)} days`;
