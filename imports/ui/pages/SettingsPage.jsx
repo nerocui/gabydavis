@@ -59,7 +59,9 @@ class SettingsPage extends React.Component {
 												}
 												break;
 											case "Child" :
-												record["people"].push(recordParser.parseChild(parsedSheet[row][key]));
+												const child = recordParser.parseChild(parsedSheet[row][key]);
+												record["people"].push(child);
+												record["child_id"] = child["_id"];
 												break;
 											case "Date of Birth" :
 												if (isNaN(new Date(parsedSheet[row][key]).getTime())) {
