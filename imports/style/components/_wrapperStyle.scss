@@ -1,6 +1,6 @@
 .component--admin__import {
-  height: 20rem;
-  width: 20rem;
+  height: 8rem;
+  width: 30rem;
   border: .2rem dotted black;
   position: relative;
   margin: auto;
@@ -12,5 +12,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    font-family: Tahoma
   }
 }

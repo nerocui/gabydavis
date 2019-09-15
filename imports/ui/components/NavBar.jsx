@@ -16,8 +16,14 @@ import { setRecords } from '../../actions';
 
 initializeIcons();
 
-const items = (onAddRow, onDeleteRow) => {
+const items = (onHomeClick, onAddRow, onDeleteRow) => {
   return [
+    {
+      key: "home",
+      text: "Home",
+      iconProps: { iconName: "Home" },
+      onClick: onHomeClick
+    },
     {
       key: "addRow",
       text: "Insert row",
@@ -33,7 +39,7 @@ const items = (onAddRow, onDeleteRow) => {
   ];
 };
 
-const userCommandBarItems = (name, routerHistory, handleLogout) => [
+const userCommandBarItems = (name, routerHistory, handleLogout, onProfileClick) => [
   {
     key: "userTab",
     name,
@@ -42,46 +48,7 @@ const userCommandBarItems = (name, routerHistory, handleLogout) => [
       iconName: "Contact"
     },
     ariaLabel: "User Settings",
-    subMenuProps: {
-      items: [
-        {
-          key: "userProfile",
-          name: "Profile",
-          iconProps: {
-            iconName: "ContactInfo"
-          },
-          "data-automation-id": "newEmailButton"
-        },
-
-        {
-          key: "logOut",
-          name: "Log Out",
-          iconProps: {
-            iconName: "Leave"
-          },
-          onClick: handleLogout
-        }
-      ]
-    }
-  },
-  {
-    key: "accountSettings",
-    name: "Set",
-    iconProps: {
-      iconName: "Settings"
-    },
-    subMenuProps: {
-      items: [
-        {
-          key: "import/export",
-          name: "Import or Export",
-          iconProps: {
-            iconName: "Import"
-          },
-          onClick: routerHistory
-        }
-      ]
-    }
+    onClick: onProfileClick
   }
 ];
 
@@ -107,6 +74,8 @@ class NavBar extends React.Component {
     this.openEditor = this.openEditor.bind(this);
     this.navigateToSettings = this.navigateToSettings.bind(this);
     this.navigateToEditor = this.navigateToEditor.bind(this);
+    this.navigateToHome = this.navigateToHome.bind(this);
+    this.navigateToProfile = this.navigateToProfile.bind(this);
   }
 
   closeSettings() {
@@ -125,12 +94,20 @@ class NavBar extends React.Component {
     this.setState({ isSettingsOpen: false });
   }
 
+  navigateToHome() {
+    this.props.history.push("/");
+  }
+
   navigateToEditor() {
     this.props.history.push("/add");
   }
 
   navigateToSettings() {
     this.props.history.push("/settings");
+  }
+
+  navigateToProfile() {
+    this.props.history.push("/profile");
   }
 
   openEditor() {
@@ -156,26 +133,26 @@ class NavBar extends React.Component {
       username = this.props.user.username;
     }
 
-    const keys = this.props.keys
-    if (keys && keys.length > 0) {
-      const key = keys.filter( key => { return key._id == "ALGOLIA"})[0].value;
-      const client = algoliaSearch(key.algoliaApplicationID, key.algoliaAdminKey);
-      const indexName = process.env.NODE_ENV === 'production' ? 'prod_gabydavis' : 'gaby_davis_records';
-      const index = client.initIndex(indexName);
+    // const keys = this.props.keys
+    // if (keys && keys.length > 0) {
+    //   const key = keys.filter( key => { return key._id == "ALGOLIA"})[0].value;
+    //   const client = algoliaSearch(key.algoliaApplicationID, key.algoliaAdminKey);
+    //   const indexName = process.env.NODE_ENV === 'production' ? 'prod_gabydavis' : 'gaby_davis_records';
+    //   const index = client.initIndex(indexName);
 
-      index.search("").then(({hits}) => {
-        this.props.setRecords(hits)
-      })
-        .catch(error => {
-          console.log(error);
-        });
-    }
+    //   index.search("").then(({hits}) => {
+    //     this.props.setRecords(hits)
+    //   })
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    // }
     return (
       <div className="component--nav__navbar-container">
         <Stack horizontal horizontalAlign="space-between">
           <Stack.Item grow={1}>
             <CommandBar
-              items={items(this.navigateToEditor, this.onDeleteRow)}
+              items={items(this.navigateToHome, this.navigateToEditor, this.onDeleteRow)}
             />
           </Stack.Item>
           <Stack.Item align="center" disableShrink grow={1}>
@@ -188,7 +165,8 @@ class NavBar extends React.Component {
                   items={userCommandBarItems(
                     username,
                     this.navigateToSettings,
-                    this.handleLogout
+                    this.handleLogout,
+                    this.navigateToProfile
                   )}
                 />
               </Stack.Item>

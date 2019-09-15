@@ -16,6 +16,7 @@ import PUBLICATION from "../../constants/publication";
 import { Keys } from "../../api/db";
 import KEYID from "../../constants/key_id";
 import firebase from "firebase";
+import ProfilePage from "../pages/ProfilePage";
 
 const history = createBrowserHistory();
 
@@ -51,6 +52,7 @@ class Routes extends React.Component {
               <PrivateRoute exact path="/home" component={HomePage} />
               <PrivateRoute exact path="/settings" component={SettingsPage} />
               <PrivateRoute exact path="/add" component={EditorPage} />
+              <PrivateRoute exact path="/profile" component={ProfilePage} />
             </Switch>
           </div>
         </Switch>
