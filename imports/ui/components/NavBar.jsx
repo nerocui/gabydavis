@@ -11,6 +11,8 @@ import { Accounts } from "meteor/accounts-base";
 import Editor from "../components/Editor";
 import { withRouter } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
+import algoliaSearch from "algoliasearch";
+import { setRecords } from '../../actions';
 
 initializeIcons();
 
@@ -153,6 +155,21 @@ class NavBar extends React.Component {
     if (this.props.user) {
       username = this.props.user.username;
     }
+
+    const keys = this.props.keys
+    if (keys && keys.length > 0) {
+      const key = keys.filter( key => { return key._id == "ALGOLIA"})[0].value;
+      const client = algoliaSearch(key.algoliaApplicationID, key.algoliaAdminKey);
+      const indexName = process.env.NODE_ENV === 'production' ? 'prod_gabydavis' : 'gaby_davis_records';
+      const index = client.initIndex(indexName);
+
+      index.search("").then(({hits}) => {
+        this.props.setRecords(hits)
+      })
+        .catch(error => {
+          console.log(error);
+        });
+    }
     return (
       <div className="component--nav__navbar-container">
         <Stack horizontal horizontalAlign="space-between">
@@ -200,11 +217,18 @@ class NavBar extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.AuthState.user
+    user: state.AuthState.user,
+    keys: state.KeyState.keys
   };
 }
 
-const ConnectedNavBar = connect(mapStateToProps)(NavBar);
+function mapDispatchToProps(dispatch) {
+  return {
+    setRecords: items => dispatch(setRecords(items))
+  };
+}
+
+const ConnectedNavBar = connect(mapStateToProps, mapDispatchToProps)(NavBar);
 
 export default withRouter(({ history }) => (
   <ConnectedNavBar history={history} />

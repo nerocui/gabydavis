@@ -2,7 +2,7 @@ import UniqueId from "uniqid";
 
 function parseName(name, role) {
   const [firstName, lastName] = name.split(" ");
-  return { firstName, lastName, role, "_id": UniqueId()};
+  return { first_name:firstName, last_name:lastName, role, "_id": UniqueId()};
 }
 
 export function parseChild(name) {
@@ -20,7 +20,7 @@ export function parseParents(name) {
       parentObjects.push(parseName(parent, "parent"));
       return;
     }
-    parentObjects.push({ firstName: parent, lastName: null, role: "parent", "_id": UniqueId() });
+    parentObjects.push({ first_name: parent, last_name: null, role: "parent", "_id": UniqueId() });
   });
   return parentObjects;
 }
@@ -35,4 +35,20 @@ export function parseSiblings(name) {
   const siblings = name.split(',');
   //console.log(siblings);
   return siblings.map(element => parseSibling(element));
+}
+
+// assumes that the user enters in a number in the first value of the string and a unit of length
+export function parseLengthOfTreatment(stringValue) {
+  const number = parseInt(stringValue);
+  if (Number.isInteger(number) && number > 0) {
+    stringValue = stringValue.toLowerCase();
+    if (stringValue.includes("years")) {
+      return number * 365;
+    } else if(stringValue.includes("months")) {
+      return number * 30;
+    } else {
+      return 0;
+    }
+  }
+  return 0;
 }

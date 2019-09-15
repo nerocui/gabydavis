@@ -11,9 +11,11 @@ import MemberDisplayCard from "./MemberDisplayCard";
 
 const useStyles = makeStyles(theme => ({
   card: {
-    width: '15rem',
-    height: '13rem',
-    backgroundColor: '#d0d0d0'
+    width: '17rem',
+    height: '14rem',
+    backgroundColor: '#d0d0d0',
+    paddingTop: theme.spacing(4),
+    paddingLeft: theme.spacing(3),
   }
 
 }));
@@ -46,6 +48,17 @@ const PeopleEditor = ({people, onChange}) => {
     onChange(newArray);
   };
 
+  const deleteMember = member => {
+    const newArray = [];
+    people.forEach(p => {
+      if (p._id !== member._id) {
+        newArray.push(p);
+      }
+    });
+
+    onChange(newArray);
+  }
+
   return (
     <Grid container spacing={1}>
       {people.map(person => {
@@ -53,7 +66,7 @@ const PeopleEditor = ({people, onChange}) => {
           <Grid item key={person._id}>
             {person.isNew ? 
               <MemberEditorCard member={person} onDoneEdit={updateMember}/> :
-              <MemberDisplayCard member={person} />
+              <MemberDisplayCard member={person} onDelete={deleteMember}/>
             }
           </Grid>
         )
