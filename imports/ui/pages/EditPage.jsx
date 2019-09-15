@@ -99,7 +99,7 @@ const Editor = ({ columns, record, history }) => {
 
   const saveRecord = () => {
     Meteor.call(APIS.RECORD_API.INSERT, fullRecord);
-    history.goBack();
+    history.push("/");
   };
 
   console.log("edit page state:::", fullRecord);
@@ -109,10 +109,10 @@ const Editor = ({ columns, record, history }) => {
       <div className="modal--editor__container">
         <Stack horizontal>
           <Label styles={titleStyles}>{editorTitle}</Label>
-          <PrimaryButton
-            text="x"
+          <DefaultButton
+            text="Back"
             onClick={() => history.goBack()}
-          ></PrimaryButton>
+          ></DefaultButton>
         </Stack>
 
         {columns.map(column => {
