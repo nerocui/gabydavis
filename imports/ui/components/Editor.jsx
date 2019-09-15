@@ -24,7 +24,8 @@ const titleStyles = {
 const labelStyle = {
   root: {
     'font-size': '1.1rem',
-    width: '11rem'
+    width: '11rem',
+    'padding-top': '1rem',
   }
 }
 const buttonBarStyles = {
