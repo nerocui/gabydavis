@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Meteor } from 'meteor/meteor';
 import { Route, Redirect } from "react-router-dom";
 import { connect }  from 'react-redux';
 

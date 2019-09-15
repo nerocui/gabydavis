@@ -160,8 +160,12 @@ class SettingsPage extends React.Component {
 	}
 
 	render() {
+		const settingContainerStyles = {
+			width:"auto",
+			"text-align": "center"
+		}
 		return (
-			<div className="modal--setting__container">
+			<div style = {settingContainerStyles}>
 				<Dropzone
 					wrapperStyle="component--admin__import"
 					inActiveText="Click or drop file(s) here to start the import..."
