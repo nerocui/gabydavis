@@ -3,6 +3,8 @@ import Dropzone from "../components/dropzone.jsx";
 import { DefaultButton } from 'office-ui-fabric-react';
 import xlsx from "xlsx";
 
+import recordParser from "../../util/recordParser.js";
+
 class SettingsPage extends React.Component {
 
 	constructor(props) {
@@ -10,10 +12,14 @@ class SettingsPage extends React.Component {
 		this.state = {
 			dropZoneText: "Click or drop file(s) here to start the import..."
 		};
+
+		// Holds all the key top columns for the sheet.
 		this.handleChange = this.handleChange.bind(this);
 	}
 
 	handleChange(files) {
+
+
 		files.forEach(file => {
 			try {
 				// Create A File Reader HTML5
@@ -23,15 +29,22 @@ class SettingsPage extends React.Component {
 					const parsedData = xlsx.read(rawData, {type: 'binary'});
 					// If we have data from the imported excel sheet
 					if (parsedData.SheetNames && parsedData.SheetNames.length > 0) {
+						let records = [];
+						// if we have sheets then go through each sheet..
 						parsedData.SheetNames.forEach(sheetName => {
-							for (const cell in parsedData.Sheets[sheetName]) {
-								// types are denoted by n = number and s = string
-								// v is the value gotten from the excel sheet
-								const value = parsedData.Sheets[sheetName][cell].v;
-								const type = parsedData.Sheets[sheetName][cell].t;
-								//console.log(parsedData.Sheets[sheetName][cell]);
+              const sheet = parsedData.Sheets[sheetName];
+              const parsedSheet = xlsx.utils.sheet_to_json(sheet);
+							for (const row in parsedSheet) {
+								const record = new Object();
+								for (const key in parsedSheet[row]) {
+									record[key] = row[key];
+								}
+								records.push(record);
 							}
-						})
+						});
+
+						// Make meteor call
+						console.log(records);
 					}
 				};
 				reader.readAsBinaryString(file);
