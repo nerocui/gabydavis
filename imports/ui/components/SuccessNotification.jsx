@@ -93,7 +93,7 @@ export default function SuccessBar(props) {
       <Snackbar
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "left"
+          horizontal: "center"
         }}
         open={open}
         autoHideDuration={6000}
