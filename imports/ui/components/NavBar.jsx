@@ -101,7 +101,8 @@ class NavBar extends React.Component {
     super(props);
     this.state = {
       isSettingsOpen: false,
-      isEditorOpen: false
+      isEditorOpen: false,
+      selectedRecord: null,
     };
     this.onAddRow = this.onAddRow.bind(this);
     this.onDeleteRow = this.onDeleteRow.bind(this);
@@ -137,7 +138,7 @@ class NavBar extends React.Component {
   }
 
   onAddRow() {
-    console.log("add row");
+    this.setState({selectedRecord: null});
     this.openEditor();
   }
 
@@ -187,7 +188,7 @@ class NavBar extends React.Component {
           onDismiss={this.closeEditor}
           isBlocking={false}
         >
-          <Editor closeModal={this.closeEditor}/>
+          <Editor record={this.props.selectedRecord} closeModal={this.closeEditor}/>
         </Modal>
       </div>
     );

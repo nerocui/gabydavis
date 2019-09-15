@@ -1,8 +1,19 @@
 import React from "react";
+import { Meteor } from "meteor/meteor";
 import { withTracker } from "meteor/react-meteor-data";
-import { Label, PrimaryButton, Stack } from "office-ui-fabric-react";
+import { DefaultButton, Label, PrimaryButton, Stack } from "office-ui-fabric-react";
+import TextField from "@material-ui/core/TextField";
+import { makeStyles } from '@material-ui/core/styles';
 
 import EditableTextfield from "./EditableTextfield";
+import APIS from '../../constants/methods';
+
+const useStyles = makeStyles(theme => ({
+  textField: {
+    padding: 3,
+  },
+
+}));
 
 const titleStyles = {
   root: {
@@ -16,8 +27,34 @@ const labelStyle = {
     width: '11rem'
   }
 }
+const buttonBarStyles = {
+  root: {
+    margin: '2rem'
+  }
+}
 
 const Editor = ({ columns, record, closeModal }) => {
+  const classes = useStyles();
+
+  let initRecord = {}
+  columns.forEach(column => {
+    initRecord[column.field] = "";
+  })
+  const [fullRecord, setFullRecord] = React.useState(initRecord);
+
+  const updateField = fieldId => event => {
+    const value = event.target.value;
+    setFullRecord(oldValues => ({
+      ...oldValues,
+      [fieldId]: value,
+    }));
+  };
+
+  const saveRecord = () => {
+    Meteor.call(APIS.RECORD_API.INSERT, fullRecord);
+    closeModal();
+  };
+
   return (
     <React.Fragment>
       <div className="modal--editor__container">
@@ -28,9 +65,17 @@ const Editor = ({ columns, record, closeModal }) => {
         
         {columns.map(column => {
           let valueComp;
-          if (column.type === "string") {
-            valueComp = (<EditableTextfield text={record && record[column.field]}></EditableTextfield>);
+          if (!record) {
+            // New record
+            if (column.type === "string") {
+              valueComp = (<TextField variant="outlined" onChange={updateField(column.field)} value={fullRecord[column.field]}></TextField>)
+            }
+          } else {
+            if (column.type === "string") {
+              valueComp = (<EditableTextfield text={record && record[column.field]} isNew={!record}></EditableTextfield>);
+            }
           }
+
           return (
             <React.Fragment key={column.field}>
               <Stack horizontal>
@@ -40,6 +85,12 @@ const Editor = ({ columns, record, closeModal }) => {
             </React.Fragment>
           );
         })}
+
+        {!record && 
+          (<Stack horizontal horizontalAlign="end" styles={buttonBarStyles}>
+            <PrimaryButton onClick={saveRecord}>Save</PrimaryButton>
+            <DefaultButton>Cancel</DefaultButton>
+          </Stack>)}
       </div>
     </React.Fragment>
   );
