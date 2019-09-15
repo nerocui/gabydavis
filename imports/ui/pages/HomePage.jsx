@@ -2,7 +2,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { connect } from 'react-redux';
 import { setSelected } from '../../actions';
-import { Fabric, MarqueeSelection, DetailsList, Selection, SelectionMode } from 'office-ui-fabric-react';
+import { Fabric, MarqueeSelection, DetailsList, Selection, SelectionMode, DetailsListLayoutMode } from 'office-ui-fabric-react';
 
 class HomePage extends React.Component {
 	constructor(props) {
@@ -31,8 +31,8 @@ class HomePage extends React.Component {
 			return {
 				key: column.field,
 				name: column.display_name,
-				minWidth: 210,
-				maxWidth: 350,
+				// minWidth: 210,
+				// maxWidth: 350,
 				isRowHeader: true,
 				isResizable: true,
 				// isSorted: true,
@@ -73,10 +73,16 @@ class HomePage extends React.Component {
 	}
 }
 
+function mapStateToProps(state) {
+	return {
+		items: state.RecordState.items,
+	};
+}
+
 function mapDispatchToProps(dispatch) {
 	return {
 		setSelected: items => dispatch(setSelected(items)),
 	};
 }
 
-export default connect(null, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

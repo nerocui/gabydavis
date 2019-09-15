@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import SettingsPage from "../pages/SettingsPage";
 import ChatListPage from '../pages/chatListPage';
+import HomePage from '../pages/HomePage';
 import NavBar from '../components/NavBar';
 import { createBrowserHistory } from 'history';
 import PrivateRoute from './PrivateRoute';
@@ -47,7 +48,7 @@ class Routes extends React.Component {
 					<div>
 						<NavBar />
 						<Switch>
-							<PrivateRoute exact path='/chatlist' component={ChatListPage} />
+							<PrivateRoute exact path='/home' component={HomePage} />
 						</Switch>
 					</div>
 				</Switch>
