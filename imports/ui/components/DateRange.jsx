@@ -1,6 +1,7 @@
 import React from "react";
 import CalendarField from "./CalendarField";
-import { areStartAndEndDatesValid, getDateRange } from '../../util/date';
+import { areStartAndEndDatesValid, getDateRange } from "../../util/date";
+import Grid from '@material-ui/core/Grid';
 
 /**
  * Props must include:
@@ -11,7 +12,6 @@ import { areStartAndEndDatesValid, getDateRange } from '../../util/date';
  *  - onBothDatesSubmitted (function)
  */
 
-
 class DateRange extends React.Component {
   constructor(props) {
     super(props);
@@ -21,7 +21,7 @@ class DateRange extends React.Component {
       startDateIsSet: false,
       endDateIsSet: false,
       firstDate: this.props.startDate,
-      secondDate: this.props.endDate,
+      secondDate: this.props.endDate
     };
   }
 
@@ -71,16 +71,18 @@ class DateRange extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <CalendarField
-          fieldLabel={"Treatment start date"}
-          selectedDate={this.props.startDate}
-          onDateSubmit={onFirstDateSubmit}
-        />
-        <CalendarField 
-          fieldLabel={"Treatment end date"} 
-          selectedDate={this.props.endDate}
-          onDateSubmit={onSecondDateSubmit}
-        />
+        <Grid container justify="space-around">
+          <CalendarField
+            fieldLabel={"Treatment start date"}
+            selectedDate={this.props.startDate}
+            onDateSubmit={onFirstDateSubmit}
+          />
+          <CalendarField
+            fieldLabel={"Treatment end date"}
+            selectedDate={this.props.endDate}
+            onDateSubmit={onSecondDateSubmit}
+          />
+        </Grid>
       </React.Fragment>
     );
   }
