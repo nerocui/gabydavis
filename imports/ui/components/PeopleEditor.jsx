@@ -48,6 +48,17 @@ const PeopleEditor = ({people, onChange}) => {
     onChange(newArray);
   };
 
+  const deleteMember = member => {
+    const newArray = [];
+    people.forEach(p => {
+      if (p._id !== member._id) {
+        newArray.push(p);
+      }
+    });
+
+    onChange(newArray);
+  }
+
   return (
     <Grid container spacing={1}>
       {people.map(person => {
@@ -55,7 +66,7 @@ const PeopleEditor = ({people, onChange}) => {
           <Grid item key={person._id}>
             {person.isNew ? 
               <MemberEditorCard member={person} onDoneEdit={updateMember}/> :
-              <MemberDisplayCard member={person} />
+              <MemberDisplayCard member={person} onDelete={deleteMember}/>
             }
           </Grid>
         )
