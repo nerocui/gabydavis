@@ -19,7 +19,7 @@ const items = (onHomeClick, onAddRow, onDeleteRow) => {
     {
       key: "home",
       text: "Home",
-      iconProps: {iconName: "Home"},
+      iconProps: { iconName: "Home" },
       onClick: onHomeClick
     },
     {
@@ -37,7 +37,7 @@ const items = (onHomeClick, onAddRow, onDeleteRow) => {
   ];
 };
 
-const userCommandBarItems = (name, routerHistory, handleLogout) => [
+const userCommandBarItems = (name, routerHistory, handleLogout, onProfileClick) => [
   {
     key: "userTab",
     name,
@@ -54,7 +54,8 @@ const userCommandBarItems = (name, routerHistory, handleLogout) => [
           iconProps: {
             iconName: "ContactInfo"
           },
-          "data-automation-id": "newEmailButton"
+          "data-automation-id": "newEmailButton",
+          onClick: onProfileClick
         },
 
         {
@@ -120,6 +121,7 @@ class NavBar extends React.Component {
     this.navigateToSettings = this.navigateToSettings.bind(this);
     this.navigateToEditor = this.navigateToEditor.bind(this);
     this.navigateToHome = this.navigateToHome.bind(this);
+    this.navigateToProfile = this.navigateToProfile.bind(this);
   }
 
   closeSettings() {
@@ -148,6 +150,10 @@ class NavBar extends React.Component {
 
   navigateToSettings() {
     this.props.history.push("/settings");
+  }
+
+  navigateToProfile() {
+    this.props.history.push("/profile");
   }
 
   openEditor() {
@@ -190,7 +196,8 @@ class NavBar extends React.Component {
                   items={userCommandBarItems(
                     username,
                     this.navigateToSettings,
-                    this.handleLogout
+                    this.handleLogout,
+                    this.navigateToProfile
                   )}
                 />
               </Stack.Item>
