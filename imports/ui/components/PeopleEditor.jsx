@@ -41,6 +41,7 @@ const PeopleEditor = ({isNew, people}) => {
     },
   ]
   const [members, setMembers] = React.useState(isNew ? newList : people);
+  const hasChild = !!members.find(member => member.role === "child");
 
   const addMemberCard = role => () => {
     setMembers(oldValues => [...oldValues, {
@@ -64,7 +65,7 @@ const PeopleEditor = ({isNew, people}) => {
         <Card className={classes.card}>
           <CardContent>
             <Button onClick={addMemberCard("parent")}>+ Add Parent</Button>
-            <Button onClick={addMemberCard("child")}>+ Add Child</Button>
+            <Button onClick={addMemberCard("child")} disabled={hasChild}>+ Add Child</Button>
             <Button onClick={addMemberCard("sibling")}>+ Add Sibling</Button>
           </CardContent>
         </Card>
