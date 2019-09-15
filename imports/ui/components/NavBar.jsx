@@ -97,89 +97,101 @@ const nonShrinkingStackItemStyles = {
 };
 
 class NavBar extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			isSettingsOpen: false,
-			isEditorOpen: false,
-		}
-		this.onAddRow = this.onAddRow.bind(this);
-		this.onDeleteRow = this.onDeleteRow.bind(this);
-		this.closeSettings = this.closeSettings.bind(this);
-		this.closeEditor = this.closeEditor.bind(this);
-		this.openSettings = this.openSettings.bind(this);
-		this.openEditor = this.openEditor.bind(this);
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      isSettingsOpen: false,
+      isEditorOpen: false
+    };
+    this.onAddRow = this.onAddRow.bind(this);
+    this.onDeleteRow = this.onDeleteRow.bind(this);
+    this.closeSettings = this.closeSettings.bind(this);
+    this.closeEditor = this.closeEditor.bind(this);
+    this.openSettings = this.openSettings.bind(this);
+    this.openEditor = this.openEditor.bind(this);
+    this.navigateToSettings = this.navigateToSettings.bind(this);
+  }
 
-	closeSettings() {
-		this.setState({isSettingsOpen: false});
-	}
+  closeSettings() {
+    this.setState({ isSettingsOpen: false });
+  }
 
-	closeEditor() {
-		this.setState({isEditorOpen: false});
-	}
+  closeEditor() {
+    this.setState({ isEditorOpen: false });
+  }
 
-	openSettings() {
-		this.setState({isSettingsOpen: true});
-	}
+  openSettings() {
+    this.setState({ isSettingsOpen: true });
+  }
 
-	openEditor() {
-		this.setState({isEditorOpen: true});
-	}
+  closeSettings() {
+    this.setState({ isSettingsOpen: false });
+  }
 
-	onAddRow() {
+  navigateToSettings() {
+    this.props.history.push("/settings");
+  }
+
+  openEditor() {
+    this.setState({ isEditorOpen: true });
+  }
+
+  onAddRow() {
 		console.log("add row");
 		this.openEditor();
-	}
+  }
 
-	onDeleteRow() {
-		console.log("delete row");
-	}
+  onDeleteRow() {
+    console.log("delete row");
+  }
 
-	handleLogout() {
-		Accounts.logout();
-	}
+  handleLogout() {
+    Accounts.logout();
+  }
 
-	render() {
-		let username = '';
-		if (this.props.user) {
-			username = this.props.user.username;
-		}
-		return (
-			<div className="component--nav__navbar-container">
-				<Stack horizontal horizontalAlign="space-between">
-					<Stack.Item grow={1}>
-						<CommandBar items={items(this.onAddRow, this.onDeleteRow)} />
-					</Stack.Item>
-					<Stack.Item align="center" disableShrink grow={1}>
-						<SearchBox placeholder="Search" />
-					</Stack.Item>
-					<Stack.Item grow={1}>
-						<Stack horizontal horizontalAlign="end">
-							<Stack.Item disableShrink styles={nonShrinkingStackItemStyles}>
-								<CommandBar items={userCommandBarItems(username, this.openSettings, this.handleLogout)} />
-							</Stack.Item>
-						</Stack>
-					</Stack.Item>
-					
-				</Stack>
-				<Modal
-					isOpen={this.state.isSettingsOpen}
-					onDismiss={this.closeSettings}
-					isBlocking={false}
-				>
-					<Settings closeModal={this.closeModal} />
-				</Modal>
-				<Modal
-					isOpen={this.state.isEditorOpen}
-					onDismiss={this.closeEditor}
-					isBlocking={false}
-				>
-					<Editor closeModal={this.closeEditor}/>
-				</Modal>
-			</div>
-		);
-	}
+  render() {
+    let username = "";
+    if (this.props.user) {
+      username = this.props.user.username;
+    }
+    return (
+      <div className="component--nav__navbar-container">
+        <Stack horizontal horizontalAlign="space-between">
+          <Stack.Item grow={1}>
+            <CommandBar items={items(this.onAddRow, this.onDeleteRow)} />
+          </Stack.Item>
+          <Stack.Item align="center" disableShrink grow={1}>
+            <SearchBox placeholder="Search" />
+          </Stack.Item>
+          <Stack.Item grow={1}>
+            <Stack horizontal horizontalAlign="end">
+              <Stack.Item disableShrink styles={nonShrinkingStackItemStyles}>
+                <CommandBar
+                  items={userCommandBarItems(
+                    username,
+                    this.navigateToSettings,
+                    this.handleLogout
+                  )}
+                />
+              </Stack.Item>
+            </Stack>
+          </Stack.Item>
+        </Stack>
+        <Modal
+          isOpen={this.state.isSettingsOpen}
+          onDismiss={this.closeSettings}
+          isBlocking={false}
+        ></Modal>
+        <Modal
+          isOpen={this.state.isEditorOpen}
+          onDismiss={this.closeEditor}
+          isBlocking={false}
+        >
+          <Editor closeModal={this.closeEditor}/>
+        </Modal>
+      </div>
+    );
+  }
 }
 
 function mapStateToProps(state) {
