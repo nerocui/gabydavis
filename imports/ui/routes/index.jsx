@@ -87,7 +87,8 @@ export default withTracker(() => {
   const keysHandler = Meteor.subscribe(PUBLICATION.APIKEYS, [
     "FIREBASE",
     "BING_MAP",
-    "PAYPAL"
+    "PAYPAL",
+    "ALGOLIA"
   ]);
   const loadingKey = !keysHandler.ready();
   const keys = Keys.find({}).fetch() || [];
