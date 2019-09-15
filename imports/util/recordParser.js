@@ -2,7 +2,7 @@ import UniqueId from "uniqid";
 
 function parseName(name, role) {
   const [firstName, lastName] = name.split(" ");
-  return { firstName, lastName, role, "_id": UniqueId()};
+  return { first_name:firstName, last_name:lastName, role, "_id": UniqueId()};
 }
 
 export function parseChild(name) {
@@ -20,7 +20,7 @@ export function parseParents(name) {
       parentObjects.push(parseName(parent, "parent"));
       return;
     }
-    parentObjects.push({ firstName: parent, lastName: null, role: "parent", "_id": UniqueId() });
+    parentObjects.push({ first_name: parent, last_name: null, role: "parent", "_id": UniqueId() });
   });
   return parentObjects;
 }
