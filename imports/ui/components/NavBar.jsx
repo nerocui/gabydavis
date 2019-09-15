@@ -14,8 +14,14 @@ import SearchBar from "../components/SearchBar";
 
 initializeIcons();
 
-const items = (onAddRow, onDeleteRow) => {
+const items = (onHomeClick, onAddRow, onDeleteRow) => {
   return [
+    {
+      key: "home",
+      text: "Home",
+      iconProps: {iconName: "Home"},
+      onClick: onHomeClick
+    },
     {
       key: "addRow",
       text: "Insert row",
@@ -113,6 +119,7 @@ class NavBar extends React.Component {
     this.openEditor = this.openEditor.bind(this);
     this.navigateToSettings = this.navigateToSettings.bind(this);
     this.navigateToEditor = this.navigateToEditor.bind(this);
+    this.navigateToHome = this.navigateToHome.bind(this);
   }
 
   closeSettings() {
@@ -129,6 +136,10 @@ class NavBar extends React.Component {
 
   closeSettings() {
     this.setState({ isSettingsOpen: false });
+  }
+
+  navigateToHome() {
+    this.props.history.push("/");
   }
 
   navigateToEditor() {
@@ -166,7 +177,7 @@ class NavBar extends React.Component {
         <Stack horizontal horizontalAlign="space-between">
           <Stack.Item grow={1}>
             <CommandBar
-              items={items(this.navigateToEditor, this.onDeleteRow)}
+              items={items(this.navigateToHome, this.navigateToEditor, this.onDeleteRow)}
             />
           </Stack.Item>
           <Stack.Item align="center" disableShrink grow={1}>
