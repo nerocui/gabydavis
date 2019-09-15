@@ -19,3 +19,10 @@ export function setKeys(keys) {
 		payload: keys,
 	};
 }
+
+export function setSelected(items) {
+	return {
+		type: TYPES.SET_SELECTED,
+		payload: items,
+	};
+}
