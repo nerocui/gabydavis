@@ -70,25 +70,6 @@ const userCommandBarItems = (name, routerHistory, handleLogout, onProfileClick) 
         }
       ]
     }
-  },
-  {
-    key: "accountSettings",
-    name: "Set",
-    iconProps: {
-      iconName: "Settings"
-    },
-    subMenuProps: {
-      items: [
-        {
-          key: "import/export",
-          name: "Import or Export",
-          iconProps: {
-            iconName: "Import"
-          },
-          onClick: routerHistory
-        }
-      ]
-    }
   }
 ];
 
@@ -173,20 +154,20 @@ class NavBar extends React.Component {
       username = this.props.user.username;
     }
 
-    const keys = this.props.keys
-    if (keys && keys.length > 0) {
-      const key = keys.filter( key => { return key._id == "ALGOLIA"})[0].value;
-      const client = algoliaSearch(key.algoliaApplicationID, key.algoliaAdminKey);
-      const indexName = process.env.NODE_ENV === 'production' ? 'prod_gabydavis' : 'gaby_davis_records';
-      const index = client.initIndex(indexName);
+    // const keys = this.props.keys
+    // if (keys && keys.length > 0) {
+    //   const key = keys.filter( key => { return key._id == "ALGOLIA"})[0].value;
+    //   const client = algoliaSearch(key.algoliaApplicationID, key.algoliaAdminKey);
+    //   const indexName = process.env.NODE_ENV === 'production' ? 'prod_gabydavis' : 'gaby_davis_records';
+    //   const index = client.initIndex(indexName);
 
-      index.search("").then(({hits}) => {
-        this.props.setRecords(hits)
-      })
-        .catch(error => {
-          console.log(error);
-        });
-    }
+    //   index.search("").then(({hits}) => {
+    //     this.props.setRecords(hits)
+    //   })
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    // }
     return (
       <div className="component--nav__navbar-container">
         <Stack horizontal horizontalAlign="space-between">
