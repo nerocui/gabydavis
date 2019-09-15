@@ -124,7 +124,7 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
 
   const saveRecord = () => {
     Meteor.call(APIS.RECORD_API.INSERT, fullRecord);
-    history.goBack();
+    history.push("/");
   };
 
   if (record) {
@@ -146,10 +146,10 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
       <div>
         <Stack horizontal>
           <Label styles={titleStyles}>{editorTitle}</Label>
-          <PrimaryButton
-            text="x"
+          <DefaultButton
+            text="Back"
             onClick={() => history.goBack()}
-          ></PrimaryButton>
+          ></DefaultButton>
         </Stack>
 
         {record && bingApi && isMapEnabled && (

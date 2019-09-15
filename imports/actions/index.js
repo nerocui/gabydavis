@@ -33,3 +33,11 @@ export function setRecords(items) {
 		payload: items,
 	};
 }
+
+
+export function setSearchTerm(term) {
+	return {
+		type: TYPES.SET_SEARCH_TERM,
+		payload: term,
+	};
+}
