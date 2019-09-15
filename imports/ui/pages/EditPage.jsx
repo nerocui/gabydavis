@@ -99,7 +99,7 @@ const Editor = ({ columns, record, history }) => {
 
   const saveRecord = () => {
     Meteor.call(APIS.RECORD_API.INSERT, fullRecord);
-    history.goBack();
+    history.push("/");
   };
 
   console.log("edit page state:::", fullRecord);
