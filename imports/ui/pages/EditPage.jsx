@@ -90,9 +90,13 @@ const Editor = ({ columns, record, history }) => {
     }));
   };
   const updateArrayField = fieldId => array => {
+    const child = array.find(p => p.role === "child" && !p.isNew);
+    const childId = child ? child._id : "";
+
     setFullRecord(oldValues => ({
       ...oldValues,
-      [fieldId]: array
+      [fieldId]: array,
+      child_id: childId
     }));
   };
 
