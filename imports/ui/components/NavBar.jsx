@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import { Accounts } from "meteor/accounts-base";
 import Editor from "../components/Editor";
 import { withRouter } from "react-router-dom";
-import SearchBar from '../components/SearchBar';
+import SearchBar from "../components/SearchBar";
 
 initializeIcons();
 
@@ -103,7 +103,7 @@ class NavBar extends React.Component {
     this.state = {
       isSettingsOpen: false,
       isEditorOpen: false,
-      selectedRecord: null,
+      selectedRecord: null
     };
     this.onAddRow = this.onAddRow.bind(this);
     this.onDeleteRow = this.onDeleteRow.bind(this);
@@ -112,6 +112,7 @@ class NavBar extends React.Component {
     this.openSettings = this.openSettings.bind(this);
     this.openEditor = this.openEditor.bind(this);
     this.navigateToSettings = this.navigateToSettings.bind(this);
+    this.navigateToEditor = this.navigateToEditor.bind(this);
   }
 
   closeSettings() {
@@ -130,6 +131,10 @@ class NavBar extends React.Component {
     this.setState({ isSettingsOpen: false });
   }
 
+  navigateToEditor() {
+    this.props.history.push("/add");
+  }
+
   navigateToSettings() {
     this.props.history.push("/settings");
   }
@@ -139,7 +144,7 @@ class NavBar extends React.Component {
   }
 
   onAddRow() {
-    this.setState({selectedRecord: null});
+    this.setState({ selectedRecord: null });
     this.openEditor();
   }
 
@@ -160,7 +165,9 @@ class NavBar extends React.Component {
       <div className="component--nav__navbar-container">
         <Stack horizontal horizontalAlign="space-between">
           <Stack.Item grow={1}>
-            <CommandBar items={items(this.onAddRow, this.onDeleteRow)} />
+            <CommandBar
+              items={items(this.navigateToEditor, this.onDeleteRow)}
+            />
           </Stack.Item>
           <Stack.Item align="center" disableShrink grow={1}>
             <SearchBar />
@@ -189,7 +196,10 @@ class NavBar extends React.Component {
           onDismiss={this.closeEditor}
           isBlocking={false}
         >
-          <Editor record={this.props.selectedRecord} closeModal={this.closeEditor}/>
+          <Editor
+            record={this.props.selectedRecord}
+            closeModal={this.closeEditor}
+          />
         </Modal>
       </div>
     );
