@@ -122,6 +122,12 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
     }));
   };
 
+  const saveStringField = (fieldID, objectID) => stringToSave => {
+    Meteor.call(APIS.RECORD_API.MODIFY, objectID, fieldID, stringToSave);
+    // save the single change to Meteor here
+    // modify takes (_id, field, value);
+  };
+
   const saveRecord = () => {
     Meteor.call(APIS.RECORD_API.INSERT, fullRecord);
     history.push("/");
@@ -201,11 +207,13 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
               );
             }
           } else {
+            console.log("objectID:::", record.objectID);
             if (column.type === "string") {
               valueComp = (
                 <EditableTextfield
                   value={record[column.field] || " "}
                   isNew={!record}
+                  onValueSubmit={saveStringField(column.field, record.objectID)}
                 ></EditableTextfield>
               );
             } else if (column.type === "date") {
@@ -213,14 +221,14 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
               valueComp = (
                 <Calendar
                   selectedDate={record && record[column.field]}
-                  onDateSubmit={updateDateField(column.field)}
+                  // onDateSubmit={updateDateField(column.field)}
                 />
               );
             } else if (column.type === "people") {
               valueComp = (
                 <PeopleEditor
                   people={record[column.field]}
-                  onChange={updateArrayField(column.field)}
+                  // onChange={updateArrayField(column.field)}
                 />
               );
             } else if (column.type === "boolean") {
@@ -230,7 +238,7 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
                     record[column.field] ? record[column.field] : false
                   }
                   onText="True"
-                  onChange={updateBooleanField(column.field)}
+                  // onChange={updateBooleanField(column.field)}
                 />
               );
             }
