@@ -82,16 +82,13 @@ const Editor = ({ columns, record, closeModal }) => {
           } else {
             switch (column.type) {
               case "string":
-                valueComp = (
+                valueComp = 
                     <EditableTextfield
                       value={record && record[column.field]}
-                    />
-                  );
+                    />;
                   break;
               case "number":
-                valueComp = (
-
-                )
+                break;
             }
           }
 
