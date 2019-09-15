@@ -48,28 +48,7 @@ const userCommandBarItems = (name, routerHistory, handleLogout, onProfileClick) 
       iconName: "Contact"
     },
     ariaLabel: "User Settings",
-    subMenuProps: {
-      items: [
-        {
-          key: "userProfile",
-          name: "Profile",
-          iconProps: {
-            iconName: "ContactInfo"
-          },
-          "data-automation-id": "newEmailButton",
-          onClick: onProfileClick
-        },
-
-        {
-          key: "logOut",
-          name: "Log Out",
-          iconProps: {
-            iconName: "Leave"
-          },
-          onClick: handleLogout
-        }
-      ]
-    }
+    onClick: onProfileClick
   }
 ];
 

@@ -7,8 +7,13 @@ import ApiContastants from "../../constants/methods.js";
 
 import recordParser from "../../util/recordParser.js";
 
-import SuccessNotification from '../components/SuccessNotification';
+import SuccessNotification from "../components/SuccessNotification";
 import { Accounts } from "meteor/accounts-base";
+
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
+import CardMedia from '@material-ui/core/CardMedia';
 
 class SettingsPage extends React.Component {
   constructor(props) {
@@ -183,28 +188,51 @@ class SettingsPage extends React.Component {
     Accounts.logout();
   }
 
-	render() {
-		const settingContainerStyles = {
-			width:"auto",
-			"text-align": "center"
-		}
-		return (
-			<div style = {settingContainerStyles}>
-				<Dropzone
-					wrapperStyle="component--admin__import"
-					inActiveText="Click or drop file(s) here to import..."
-					activeText="Drop here to start the import..."
-					handleChange={this.handleChange}
-				/>
-				<DefaultButton text="Log Out" onClick={this.handleLogout} allowDisabledFocus />
-        <SuccessNotification 
-          successMessage={'Files imported successfully!'}
-          shouldRender={this.state.completed}
-        />
-			</div>
-		);
-	}
-};
-
+  render() {
+    const settingContainerStyles = {
+      width: "auto",
+      "text-align": "center"
+    };
+    return (
+      <div>
+        <div>
+          <Card>
+            <CardMedia
+              style={{height:100, width:100}}
+              image="https://www.canadahelps.org/uploads/CACHE/images/image/4/0181/ab9ebb11b00147209c69967022356238-gaby-davis-logo/29064946a80fdf8836da7d077de99a76.jpeg"
+              title="logo"
+            />
+            <CardContent width>
+              <Typography variant="h5" component="h2">
+                Jonathan Sharma
+              </Typography>
+              <Typography color="textSecondary">Director</Typography>
+              <Typography variant="body2" component="p">
+                Email: jsharma@gdfoundation.com
+              </Typography>
+            </CardContent>
+          </Card>
+        </div>
+        <div style={settingContainerStyles}>
+          <Dropzone
+            wrapperStyle="component--admin__import"
+            inActiveText="Click or drop file(s) here to import..."
+            activeText="Drop here to start the import..."
+            handleChange={this.handleChange}
+          />
+          <DefaultButton
+            text="Log Out"
+            onClick={this.handleLogout}
+            allowDisabledFocus
+          />
+          <SuccessNotification
+            successMessage={"Files imported successfully!"}
+            shouldRender={this.state.completed}
+          />
+        </div>
+      </div>
+    );
+  }
+}
 
 export default SettingsPage;
