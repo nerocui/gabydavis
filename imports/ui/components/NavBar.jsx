@@ -8,8 +8,9 @@ import {
 } from "office-ui-fabric-react";
 import { connect } from "react-redux";
 import { Accounts } from "meteor/accounts-base";
-import Settings from "../components/Settings";
 import Editor from "../components/Editor";
+import { withRouter } from "react-router-dom";
+import SearchBar from "../components/SearchBar";
 
 initializeIcons();
 
@@ -30,7 +31,7 @@ const items = (onAddRow, onDeleteRow) => {
   ];
 };
 
-const userCommandBarItems = (name, settingOnClick, handleLogout) => [
+const userCommandBarItems = (name, routerHistory, handleLogout) => [
   {
     key: "userTab",
     name,
@@ -75,7 +76,7 @@ const userCommandBarItems = (name, settingOnClick, handleLogout) => [
           iconProps: {
             iconName: "Import"
           },
-          onClick: settingOnClick
+          onClick: routerHistory
         },
         {
           key: "export",
@@ -83,7 +84,7 @@ const userCommandBarItems = (name, settingOnClick, handleLogout) => [
           iconProps: {
             iconName: "Export"
           },
-          onClick: settingOnClick
+          onClick: routerHistory
         }
       ]
     }
@@ -101,7 +102,8 @@ class NavBar extends React.Component {
     super(props);
     this.state = {
       isSettingsOpen: false,
-      isEditorOpen: false
+      isEditorOpen: false,
+      selectedRecord: null
     };
     this.onAddRow = this.onAddRow.bind(this);
     this.onDeleteRow = this.onDeleteRow.bind(this);
@@ -109,6 +111,8 @@ class NavBar extends React.Component {
     this.closeEditor = this.closeEditor.bind(this);
     this.openSettings = this.openSettings.bind(this);
     this.openEditor = this.openEditor.bind(this);
+    this.navigateToSettings = this.navigateToSettings.bind(this);
+    this.navigateToEditor = this.navigateToEditor.bind(this);
   }
 
   closeSettings() {
@@ -123,12 +127,25 @@ class NavBar extends React.Component {
     this.setState({ isSettingsOpen: true });
   }
 
+  closeSettings() {
+    this.setState({ isSettingsOpen: false });
+  }
+
+  navigateToEditor() {
+    this.props.history.push("/add");
+  }
+
+  navigateToSettings() {
+    this.props.history.push("/settings");
+  }
+
   openEditor() {
     this.setState({ isEditorOpen: true });
   }
 
   onAddRow() {
-    console.log("add row");
+    this.setState({ selectedRecord: null });
+    this.openEditor();
   }
 
   onDeleteRow() {
@@ -148,10 +165,12 @@ class NavBar extends React.Component {
       <div className="component--nav__navbar-container">
         <Stack horizontal horizontalAlign="space-between">
           <Stack.Item grow={1}>
-            <CommandBar items={items(this.onAddRow, this.onDeleteRow)} />
+            <CommandBar
+              items={items(this.navigateToEditor, this.onDeleteRow)}
+            />
           </Stack.Item>
           <Stack.Item align="center" disableShrink grow={1}>
-            <SearchBox placeholder="Search" />
+            <SearchBar />
           </Stack.Item>
           <Stack.Item grow={1}>
             <Stack horizontal horizontalAlign="end">
@@ -159,7 +178,7 @@ class NavBar extends React.Component {
                 <CommandBar
                   items={userCommandBarItems(
                     username,
-                    this.openSettings,
+                    this.navigateToSettings,
                     this.handleLogout
                   )}
                 />
@@ -171,15 +190,16 @@ class NavBar extends React.Component {
           isOpen={this.state.isSettingsOpen}
           onDismiss={this.closeSettings}
           isBlocking={false}
-        >
-          <Settings closeModal={this.closeSettings} />
-        </Modal>
+        ></Modal>
         <Modal
           isOpen={this.state.isEditorOpen}
           onDismiss={this.closeEditor}
           isBlocking={false}
         >
-          <Editor />
+          <Editor
+            record={this.props.selectedRecord}
+            closeModal={this.closeEditor}
+          />
         </Modal>
       </div>
     );
@@ -192,4 +212,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(NavBar);
+const ConnectedNavBar = connect(mapStateToProps)(NavBar);
+
+export default withRouter(({ history }) => (
+  <ConnectedNavBar history={history} />
+));

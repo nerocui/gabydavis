@@ -59,7 +59,7 @@ class LoginPage extends React.Component {
 
 	render() {
 		if (this.props.logged_in) {
-			return (<Redirect to='/chatlist'/>);
+			return (<Redirect to='/home'/>);
 		}
 		return (
 			<div className="page--authpage-container page">
