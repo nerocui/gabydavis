@@ -7,11 +7,14 @@ import ApiContastants from "../../constants/methods.js";
 
 import recordParser from "../../util/recordParser.js";
 
+import SuccessNotification from '../components/SuccessNotification';
+
 class SettingsPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dropZoneText: "Click or drop file(s) here to start the import..."
+      dropZoneText: "Click or drop file here",
+      completed: false
     };
 
     // Holds all the key top columns for the sheet.
@@ -160,6 +163,9 @@ class SettingsPage extends React.Component {
             }
           }
         };
+        this.setState({
+          completed: true
+        });
         reader.readAsBinaryString(file);
       } catch (e) {
         console.log(e);
@@ -176,14 +182,18 @@ class SettingsPage extends React.Component {
       <div className="modal--setting__container">
         <Dropzone
           wrapperStyle="component--admin__import"
-          inActiveText="Click or drop file(s) here to start the import..."
+          inActiveText="Click or drop file here"
           activeText="Drop here to start the import..."
           handleChange={this.handleChange}
         />
         <DefaultButton
-          text="Export"
+          text="Import file"
           onClick={this.exportFile}
           allowDisabledFocus
+        />
+        <SuccessNotification 
+          successMessage={'Files imported successfully!'}
+          shouldRender={this.state.completed}
         />
       </div>
     );
