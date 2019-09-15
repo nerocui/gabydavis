@@ -8,7 +8,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from '@material-ui/core/styles';
-import {PrimaryButton} from "office-ui-fabric-react";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -18,27 +17,8 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-const MemberEditorCard = ({member, columns, onDoneEdit}) => {
+const MemberDisplayCard = ({member, columns}) => {
   const classes = useStyles();
-
-  const [person, setPerson] = React.useState({});
-
-  const updatePerson = fieldId => event => {
-    const value = event.target.value;
-    setPerson(oldValues => ({
-      ...oldValues,
-      [fieldId]: value,
-    }));
-  };
-
-  const doneEdit = () => {
-    const newPerson = {
-      _id: member._id,
-      role: member.role,
-      ...person,
-    }
-    onDoneEdit(newPerson);
-  };
 
   return (
     <Card className={classes.card}>
@@ -50,18 +30,14 @@ const MemberEditorCard = ({member, columns, onDoneEdit}) => {
             return (
               <Grid container key={column.field}>
                 <Grid item xs={6}>{column.display_name}</Grid>
-                <Grid item xs={6}>
-                  <TextField margin="dense" onChange={updatePerson(column.field)}></TextField>
-                </Grid>
+                <Grid item xs={6}>{member[column.field]}</Grid>
               </Grid>
             );
           } else if (column.type === "date") {
             return (
               <Grid container key={column.field}>
                 <Grid item xs={6}>{column.display_name}</Grid>
-                <Grid item xs={6}>
-                  
-                </Grid>
+                <Grid item xs={6}>{member[column.field]}</Grid>
               </Grid>
             );
           } else {
@@ -69,7 +45,6 @@ const MemberEditorCard = ({member, columns, onDoneEdit}) => {
           }
         })}
 
-        <PrimaryButton onClick={doneEdit}>Done</PrimaryButton>
       </CardContent>
     </Card>
   );
@@ -81,4 +56,4 @@ export default withTracker(() => {
   return {
     columns
   };
-})(MemberEditorCard);
+})(MemberDisplayCard);

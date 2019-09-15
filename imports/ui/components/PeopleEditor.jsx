@@ -1,4 +1,5 @@
 import React from "react";
+import uniqid from "uniqid";
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -6,58 +7,54 @@ import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
 
 import MemberEditorCard from "./MemberEditorCard";
+import MemberDisplayCard from "./MemberDisplayCard";
 
 const useStyles = makeStyles(theme => ({
   card: {
     width: '15rem',
-    height: '12rem',
+    height: '13rem',
     backgroundColor: '#d0d0d0'
   }
 
 }));
 
-const PeopleEditor = ({isNew, people}) => {
+const PeopleEditor = ({people, onChange}) => {
   const classes = useStyles();
 
-  // show 2 parent cards, 1 child card for new record
-  const newList = [
-    {
-      first_name: "",
-      last_name: "",
-      role: "parent",
-      date_of_birth: new Date()
-    },
-    {
-      first_name: "",
-      last_name: "",
-      role: "parent",
-      date_of_birth: new Date()
-    },
-    {
-      first_name: "",
-      last_name: "",
-      role: "child",
-      date_of_birth: new Date()
-    },
-  ]
-  const [members, setMembers] = React.useState(isNew ? newList : people);
-  const hasChild = !!members.find(member => member.role === "child");
+  const hasChild = !!people.find(person => person.role === "child");
 
   const addMemberCard = role => () => {
-    setMembers(oldValues => [...oldValues, {
-      first_name: "",
-      last_name: "",
+    const newMember = {
+      _id: uniqid(),
       role: role,
-      date_of_birth: new Date()
-    }])
-  }
+      isNew: true,
+    };
+    
+    onChange([...people, newMember]);
+  };
+
+  const updateMember = member => {
+    const newArray = [];
+    people.forEach(p => {
+      if (p._id === member._id) {
+        newArray.push(member);
+      } else {
+        newArray.push(p);
+      }
+    });
+
+    onChange(newArray);
+  };
 
   return (
     <Grid container spacing={1}>
-      {members.map(member => {
+      {people.map(person => {
         return (
-          <Grid item>
-            <MemberEditorCard role={member.role} />
+          <Grid item key={person._id}>
+            {person.isNew ? 
+              <MemberEditorCard member={person} onDoneEdit={updateMember}/> :
+              <MemberDisplayCard member={person} />
+            }
           </Grid>
         )
       })}
