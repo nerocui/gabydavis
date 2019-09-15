@@ -16,6 +16,9 @@ const useStyles = makeStyles(theme => ({
   card: {
     width: '17rem',
     height: '14rem',
+  },
+  label: {
+    paddingTop: '1rem',
   }
 
 }));
@@ -65,7 +68,7 @@ const MemberEditorCard = ({member, columns, onDoneEdit}) => {
           if (column.type === "string" && column.field !== "role") {
             return (
               <Grid container key={column.field}>
-                <Grid item xs={6}>{column.display_name}</Grid>
+                <Grid item xs={6} className={classes.label}>{column.display_name}</Grid>
                 <Grid item xs={6}>
                   <TextField margin="dense" onChange={updatePerson(column.field)}></TextField>
                 </Grid>
@@ -74,7 +77,7 @@ const MemberEditorCard = ({member, columns, onDoneEdit}) => {
           } else if (column.type === "date") {
             return (
               <Grid container key={column.field}>
-                <Grid item xs={6}>{column.display_name}</Grid>
+                <Grid item xs={6} className={classes.label}>{column.display_name}</Grid>
                 <Grid item xs={6}>
                   <Calendar                    
                     selectedDate={member && member[column.field]}

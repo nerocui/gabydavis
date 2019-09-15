@@ -109,10 +109,10 @@ const Editor = ({ columns, record, history }) => {
       <div className="modal--editor__container">
         <Stack horizontal>
           <Label styles={titleStyles}>{editorTitle}</Label>
-          <PrimaryButton
-            text="x"
+          <DefaultButton
+            text="Back"
             onClick={() => history.goBack()}
-          ></PrimaryButton>
+          ></DefaultButton>
         </Stack>
 
         {columns.map(column => {
