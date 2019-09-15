@@ -13,6 +13,7 @@ import {
 	SelectionMode,
 	DetailsListLayoutMode,
 	HoverCard,
+	HoverCardType,
 } from 'office-ui-fabric-react';
 
 
@@ -28,15 +29,14 @@ class HomePage extends React.Component {
 			columns: this.getColumns(),
 		};
 		this.onItemInvoked = this.onItemInvoked.bind(this);
-		this.onRenderCompactCard = this.onRenderCompactCard.bind(this);
-		this.onRenderExpandedCard = this.onRenderExpandedCard.bind(this);
+		this.onRenderPlainCard = this.onRenderPlainCard.bind(this);
 	}
 
 	onItemInvoked(e) {
 		console.log("Item invoked:", e);
 	}
 
-	onRenderCompactCard(item) {
+	onRenderPlainCard(item) {
 		if (this.bingApi !== '' && this.props.isMapEnabled) {
 			const boundary = {
 				search: `${item.street_address}, ${item.city}, ${item.postal_code}`,
@@ -44,7 +44,7 @@ class HomePage extends React.Component {
 				  entityType: "PopulatedPlace"
 				},
 				polygonStyle: {
-				  fillColor: "rgba(161,224,255,0.4)",
+				  fillColor: "rgba(255, 255, 255, 0)",
 				  strokeColor: "#a495b2",
 				  strokeThickness: 2
 				}
@@ -59,36 +59,6 @@ class HomePage extends React.Component {
 						boundary={boundary}
 						style={{ height: "100%" }}
 					/>
-				</div>
-			)
-		}
-		return '';
-	}
-
-	onRenderExpandedCard(item) {
-		if (this.bingApi !== '' && this.props.isMapEnabled) {
-			const boundary = {
-				search: `${item.street_address}, ${item.city}, ${item.postal_code}`,
-				option: {
-				  entityType: "PopulatedPlace"
-				},
-				polygonStyle: {
-				  fillColor: "rgba(161,224,255,0.4)",
-				  strokeColor: "#a495b2",
-				  strokeThickness: 2
-				}
-			};
-			return (
-				<div className="bingmap">
-					<ReactBingmaps
-						bingmapKey={this.bingApi}
-						center={[13.0827, 80.2707]}
-						mapTypeId={"road"}
-						navigationBarMode={"compact"}
-						boundary={boundary}
-						style={{ height: "100%" }}
-					/>
-					<p>Something more!</p>
 				</div>
 			)
 		}
@@ -125,14 +95,13 @@ class HomePage extends React.Component {
 							);
 						default:
 							if (column.field === 'street_address') {
-								const expandingCardProps = {
-									onRenderCompactCard: this.onRenderCompactCard,
-									onRenderExpandedCard: this.onRenderExpandedCard,
+								const plainCardProps = {
+									onRenderPlainCard: this.onRenderPlainCard,
 									renderData: item
 								};
 								console.log('rendering street address');
 								return (
-									<HoverCard expandingCardProps={expandingCardProps} instantOpenOnClick={true}>
+									<HoverCard plainCardProps={plainCardProps} instantOpenOnClick={true} type={HoverCardType.plain}>
 										{item[column.field]}
 									</HoverCard>
 								);
