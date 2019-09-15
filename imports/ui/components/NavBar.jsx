@@ -73,18 +73,10 @@ const userCommandBarItems = (name, routerHistory, handleLogout) => [
     subMenuProps: {
       items: [
         {
-          key: "import",
-          name: "Import",
+          key: "import/export",
+          name: "Import or Export",
           iconProps: {
             iconName: "Import"
-          },
-          onClick: routerHistory
-        },
-        {
-          key: "export",
-          name: "Export",
-          iconProps: {
-            iconName: "Export"
           },
           onClick: routerHistory
         }

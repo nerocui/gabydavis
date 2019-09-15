@@ -177,27 +177,28 @@ class SettingsPage extends React.Component {
     // grab data here then export to local file system.
   }
 
-  render() {
-    return (
-      <div className="modal--setting__container">
-        <Dropzone
-          wrapperStyle="component--admin__import"
-          inActiveText="Click or drop file here"
-          activeText="Drop here to start the import..."
-          handleChange={this.handleChange}
-        />
-        <DefaultButton
-          text="Import file"
-          onClick={this.exportFile}
-          allowDisabledFocus
-        />
+	render() {
+		const settingContainerStyles = {
+			width:"auto",
+			"text-align": "center"
+		}
+		return (
+			<div style = {settingContainerStyles}>
+				<Dropzone
+					wrapperStyle="component--admin__import"
+					inActiveText="Click or drop file(s) here to start the import..."
+					activeText="Drop here to start the import..."
+					handleChange={this.handleChange}
+				/>
+				<DefaultButton text="Export" onClick={this.exportFile} allowDisabledFocus />
         <SuccessNotification 
           successMessage={'Files imported successfully!'}
           shouldRender={this.state.completed}
         />
-      </div>
-    );
-  }
-}
+			</div>
+		);
+	}
+};
+
 
 export default SettingsPage;
