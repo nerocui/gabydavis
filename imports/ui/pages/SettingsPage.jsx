@@ -38,19 +38,102 @@ class SettingsPage extends React.Component {
               const parsedSheet = xlsx.utils.sheet_to_json(sheet);
 							for (const row in parsedSheet) {
 								const record = new Object();
-								record["People"] = [];
+								record["people"] = [];
 								for (const key in parsedSheet[row]) {
-									if (key == "Child") {
-										record["People"].push(recordParser.parseChild(parsedSheet[row][key]));
-									} else if (key ==  "Parents") {
-										// record["People"].push([...record["People"],[recordParser.parseParents(parsedSheet[row][key])]]);
-										record["People"] = [...record["People"], ...recordParser.parseParents(parsedSheet[row][key])];
-									} else if (key == "Siblings") {
-										record["People"] = [...record["People"], ...recordParser.parseSiblings(parsedSheet[row][key])];
-									} else if (key == "Social Worker") {
-										record["People"].push(recordParser.parseSocialWorker(parsedSheet[row][key]));
-									} else {
-										record[key] = parsedSheet[row][key];
+										switch (key) {
+											case "File Number" :
+												record["file_number"] = parsedSheet[row][key];
+												break;
+											case "Date of Application" :
+												if (isNaN(new Date(parsedSheet[row][key]).getTime())) {
+													record["date_of_application"] = null
+												} else {
+													record["date_of_application"] = new Date(parsedSheet[row][key]);
+												}
+												break;
+											case "Date Helped" :
+												if (isNaN(new Date(parsedSheet[row][key]).getTime())) {
+													record["date_helped"] = null
+												} else {
+													record["date_helped"] = new Date(parsedSheet[row][key]);
+												}
+												break;
+											case "Child" :
+												record["people"].push(recordParser.parseChild(parsedSheet[row][key]));
+												break;
+											case "Date of Birth" :
+												if (isNaN(new Date(parsedSheet[row][key]).getTime())) {
+													record["date_of_birth"] = null
+												} else {
+													record["date_of_birth"] = new Date(parsedSheet[row][key]);
+												}
+												break;
+											case "Parents" :
+												record["people"] = [...record["people"], ...recordParser.parseParents(parsedSheet[row][key])];
+												break;
+											case "Cancer Type" :
+												record["cancer_type"] = parsedSheet[row][key];
+												break;
+											case "Diagnosis Date" :
+												if (isNaN(new Date(parsedSheet[row][key]).getTime())) {
+													record["diagnosis_date"] = null
+												} else {
+													record["diagnosis_date"] = new Date(parsedSheet[row][key]);
+												}
+												break;
+											case "Length of Treatment" :
+												record["length_of_treatment"] = parsedSheet[row][key];
+												break;
+											case "Treatment Notes" :
+												record["treatment_notes"] = parsedSheet[row][key];
+												break;
+											case "Heaven Date" :
+												if (isNaN(new Date(parsedSheet[row][key]).getTime())) {
+													record["heaven_date"] = null
+												} else {
+													record["heaven_date"] = new Date(parsedSheet[row][key]);
+												}
+												break;
+											case "Relapse" :
+												record["relapse"] = parsedSheet[row][key];
+												break;
+											case "Date of Relapse" :
+												if (isNaN(new Date(parsedSheet[row][key]).getTime())) {
+													record["date_of_relapse"] = null
+												} else {
+													record["date_of_relapse"] = new Date(parsedSheet[row][key]);
+												}
+												break;
+											case "Street Address" :
+												record["street_address"] = parsedSheet[row][key];
+												break;
+											case "City" :
+												record["city"] = parsedSheet[row][key];
+												break;
+											case "Postal Code" :
+												record["postal_code"] = parsedSheet[row][key];
+												break;
+											case "Phone Number" :
+												record["phone_number"] = parsedSheet[row][key];
+												break;
+											case "Cell Phone Number" :
+												record["cell_phone_number"] = parsedSheet[row][key];
+												break;
+											case "Email" :
+												record["email"] = parsedSheet[row][key];
+												break;
+											case "Siblings" :
+												record["people"] = [...record["people"], ...recordParser.parseSiblings(parsedSheet[row][key])];
+												break;
+											case "Location of Visit" :
+												record["location_of_visit"] = parsedSheet[row][key];
+												break;
+											case "Social Worker" :
+												record["social_worker"] = parsedSheet[row][key];
+												break;
+											case "Other notes" :
+												record["other_notes"] = parsedSheet[row][key];
+												break;
 									}
 								}
 								records.push(record);

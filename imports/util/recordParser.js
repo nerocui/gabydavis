@@ -25,10 +25,6 @@ export function parseParents(name) {
   return parentObjects;
 }
 
-export function parseSocialWorker(name) {
-  return parseName(name, "social-worker");
-}
-
 function parseSibling(string) {
   const [name, age] = string.split('age');
   //console.log(name);
