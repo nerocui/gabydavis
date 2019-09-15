@@ -6,8 +6,8 @@ import { areStartAndEndDatesValid, getDateRange } from '../../util/date';
  * Props must include:
  *  - start date (Date)
  *  - end date (Date)
- *  - onStartDateSubmit (function)
- *  - onEndDateSubmit (function)
+ *  - onStartDateSubmit (function) (if needed to set start date somewhere in data)
+ *  - onEndDateSubmit (function)   (if needed to set end date somewhere in data)
  *  - onBothDatesSubmitted (function)
  */
 
@@ -31,13 +31,14 @@ class DateRange extends React.Component {
       startDateIsSet: true
     });
 
-    props.onStartDateSubmit(date);
+    this.props.onStartDateSubmit(date);
 
     if (endDateIsSet) {
       if (areStartAndEndDatesValid(date, this.state.secondDate)) {
         this.setState({
           dateRange: getDateRange(this.state.firstDate, this.state.secondState)
         });
+        this.props.onBothDatesSubmitted(dateRange);
       }
     } else {
       // Do we want this functionality? Automatically sets date to current date if no end date
@@ -45,6 +46,7 @@ class DateRange extends React.Component {
       this.setState({
         dateRange: getDateRange(this.date, new Date())
       });
+      this.props.onBothDatesSubmitted(dateRange);
     }
   }
 
@@ -54,14 +56,14 @@ class DateRange extends React.Component {
       endDateIsSet: true
     });
 
-    props.onEndDateSubmit(date);
+    this.props.onEndDateSubmit(date);
 
     if (startDateIsSet) {
       if (areStartAndEndDatesValid(this.state.firstDate, date)) {
-        // get date range
         this.setState({
           dateRange: getDateRange(this.state.firstDate, this.state.secondState)
         });
+        this.props.onBothDatesSubmitted(dateRange);
       }
     }
   }
