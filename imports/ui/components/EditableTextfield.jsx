@@ -17,7 +17,7 @@ const CssTextField = withStyles({
       "&.Mui-focused fieldset": {
         borderColor: "purple"
       }
-    },
+    }
   }
 })(TextField);
 
@@ -25,13 +25,16 @@ class EditableTextfield extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = (this.props.value !== null) ? {
-      editing: false,
-      content: this.props.value
-    } : {
-      editing: false,
-      content: ''
-    };
+    this.state =
+      this.props.value !== null
+        ? {
+            editing: false,
+            content: this.props.value
+          }
+        : {
+            editing: false,
+            content: ""
+          };
 
     this.renderTextblock = this.renderTextblock.bind(this);
     this.renderTextfield = this.renderTextfield.bind(this);
@@ -70,7 +73,11 @@ class EditableTextfield extends React.Component {
   renderTextblock() {
     return (
       <div className="element--text__text-block">
-        <p onClick={this.onEdit}>{this.props.value}</p>
+        <TextField
+          onClick={this.onEdit}
+          value={this.props.value}
+          style={{ padding: "10px" }}
+        />
       </div>
     );
   }
