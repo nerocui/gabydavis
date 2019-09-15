@@ -115,20 +115,6 @@ class NavBar extends React.Component {
     this.openEditor = this.openEditor.bind(this);
     this.navigateToSettings = this.navigateToSettings.bind(this);
     this.navigateToEditor = this.navigateToEditor.bind(this);
-
-    if (props.keys && props.keys.length > 0) {
-      const key = props.keys.filter( key => { return key._id == "ALGOLIA"})[0].value;
-      const client = algoliaSearch(key.algoliaApplicationID, key.algoliaAdminKey);
-      const indexName = process.env.NODE_ENV === 'production' ? 'prod_gabydavis' : 'gaby_davis_records';
-      const index = client.initIndex(indexName);
-
-      index.search("").then(({hits}) => {
-        props.setRecords(hits)
-      })
-        .catch(error => {
-          console.log(error);
-        });
-    }
   }
 
   closeSettings() {
@@ -176,6 +162,21 @@ class NavBar extends React.Component {
     let username = "";
     if (this.props.user) {
       username = this.props.user.username;
+    }
+
+    const keys = this.props.keys
+    if (keys && keys.length > 0) {
+      const key = keys.filter( key => { return key._id == "ALGOLIA"})[0].value;
+      const client = algoliaSearch(key.algoliaApplicationID, key.algoliaAdminKey);
+      const indexName = process.env.NODE_ENV === 'production' ? 'prod_gabydavis' : 'gaby_davis_records';
+      const index = client.initIndex(indexName);
+
+      index.search("").then(({hits}) => {
+        this.props.setRecords(hits)
+      })
+        .catch(error => {
+          console.log(error);
+        });
     }
     return (
       <div className="component--nav__navbar-container">
