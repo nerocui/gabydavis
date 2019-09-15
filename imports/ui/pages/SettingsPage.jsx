@@ -82,7 +82,7 @@ class SettingsPage extends React.Component {
 												}
 												break;
 											case "Length of Treatment" :
-												record["length_of_treatment"] = parsedSheet[row][key];
+												record["length_of_treatment"] = recordParser.parseLengthOfTreatment(parsedSheet[row][key]);
 												break;
 											case "Treatment Notes" :
 												record["treatment_notes"] = parsedSheet[row][key];

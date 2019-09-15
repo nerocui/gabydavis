@@ -36,3 +36,19 @@ export function parseSiblings(name) {
   //console.log(siblings);
   return siblings.map(element => parseSibling(element));
 }
+
+// assumes that the user enters in a number in the first value of the string and a unit of length
+export function parseLengthOfTreatment(stringValue) {
+  const number = parseInt(stringValue);
+  if (Number.isInteger(number) && number > 0) {
+    stringValue = stringValue.toLowerCase();
+    if (stringValue.includes("years")) {
+      return number * 365;
+    } else if(stringValue.includes("months")) {
+      return number * 30;
+    } else {
+      return 0;
+    }
+  }
+  return 0;
+}
