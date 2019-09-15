@@ -7,12 +7,15 @@ import { setRecords } from '../../actions';
 const SearchBar = ({setRecords}) => {
 	const items = [
 		{
+			file_number: 'some file number',
+			date_helped: '03/04/2018',
 			people: [
 				{
 					_id: 'vbfhsudebfj',
 					first_name: "hduoasdh",
 					last_name: "dasdas",
-					role: 'child'
+					role: 'child',
+					date_of_birth: '03/04/2018'
 				}
 			],
 			child_id: 'vbfhsudebfj',

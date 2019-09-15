@@ -28,6 +28,29 @@ class HomePage extends React.Component {
 			return [];
 		}
 		return RECORD_TEMPLATE.map(column => {
+			if (column.type === 'people') {
+				return {
+					key: column.field,
+					name: column.display_name,
+					// minWidth: 210,
+					// maxWidth: 350,
+					isRowHeader: true,
+					isResizable: true,
+					// isSorted: true,
+					// isSortedDescending: false,
+					// sortAscendingAriaLabel: 'Sorted A to Z',
+					// sortDescendingAriaLabel: 'Sorted Z to A',
+					// onColumnClick: this._onColumnClick,
+					isPadded: true,
+					onRender: ({people}) => {
+						return (
+							<div>
+								{people.map(person => <div>{`${person.first_name} ${person.last_name}`}</div>)}
+							</div>
+						);
+					}
+				};
+			}
 			return {
 				key: column.field,
 				name: column.display_name,
@@ -40,8 +63,14 @@ class HomePage extends React.Component {
 				// sortAscendingAriaLabel: 'Sorted A to Z',
 				// sortDescendingAriaLabel: 'Sorted Z to A',
 				// onColumnClick: this._onColumnClick,
-				data: column.type === 'people'?'array':column.type,
-				isPadded: true
+				isPadded: true,
+				onRender: (item) => {
+					return (
+						<div>
+							{item[column.field]}
+						</div>
+					);
+				}
 			};
 		});
 	}
