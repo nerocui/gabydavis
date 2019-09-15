@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from '@material-ui/core/styles';
 import CalendarField from './CalendarField';
 import EditableTextfield from "./EditableTextfield";
+import PeopleEditor from "./PeopleEditor";
 import APIS from '../../constants/methods';
 
 const useStyles = makeStyles(theme => ({
@@ -24,7 +25,7 @@ const titleStyles = {
 const labelStyle = {
   root: {
     'font-size': '1.1rem',
-    width: '11rem',
+    width: '12rem',
     'padding-top': '1rem',
   }
 }
@@ -78,6 +79,8 @@ const Editor = ({ columns, record, closeModal }) => {
                   margin="dense"
                   value={fullRecord[column.field]} />
               )
+            } else if (column.type === "people") {
+              valueComp = (<PeopleEditor isNew></PeopleEditor>)
             }
           } else {
             switch (column.type) {
