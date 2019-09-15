@@ -11,9 +11,11 @@ import MemberDisplayCard from "./MemberDisplayCard";
 
 const useStyles = makeStyles(theme => ({
   card: {
-    width: '15rem',
-    height: '13rem',
-    backgroundColor: '#d0d0d0'
+    width: '17rem',
+    height: '14rem',
+    backgroundColor: '#d0d0d0',
+    paddingTop: theme.spacing(4),
+    paddingLeft: theme.spacing(3),
   }
 
 }));

@@ -10,13 +10,22 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from '@material-ui/core/styles';
 import {PrimaryButton} from "office-ui-fabric-react";
 
+import Calendar from "../components/CalendarField";
+
 const useStyles = makeStyles(theme => ({
   card: {
-    width: '15rem',
-    height: '13rem',
+    width: '17rem',
+    height: '14rem',
   }
 
 }));
+
+const doneButtonStyle = {
+  root: {
+    'margin-top': '1rem',
+    'margin-left': '10rem',
+  }
+}
 
 const MemberEditorCard = ({member, columns, onDoneEdit}) => {
   const classes = useStyles();
@@ -30,6 +39,13 @@ const MemberEditorCard = ({member, columns, onDoneEdit}) => {
       [fieldId]: value,
     }));
   };
+
+  const updateDateField = fieldId => value => {
+    setPerson(oldValues => ({
+      ...oldValues,
+      [fieldId]: value,
+    }))
+  }
 
   const doneEdit = () => {
     const newPerson = {
@@ -60,7 +76,10 @@ const MemberEditorCard = ({member, columns, onDoneEdit}) => {
               <Grid container key={column.field}>
                 <Grid item xs={6}>{column.display_name}</Grid>
                 <Grid item xs={6}>
-                  
+                  <Calendar                    
+                    selectedDate={member && member[column.field]}
+                    onDateSubmit={updateDateField(column.field)}
+                  />
                 </Grid>
               </Grid>
             );
@@ -69,7 +88,7 @@ const MemberEditorCard = ({member, columns, onDoneEdit}) => {
           }
         })}
 
-        <PrimaryButton onClick={doneEdit}>Done</PrimaryButton>
+        <PrimaryButton onClick={doneEdit} styles={doneButtonStyle}>Done</PrimaryButton>
       </CardContent>
     </Card>
   );
