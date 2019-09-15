@@ -77,8 +77,8 @@ const MemberEditorCard = ({member, columns, onDoneEdit}) => {
           } else if (column.type === "date") {
             return (
               <Grid container key={column.field}>
-                <Grid item xs={6} className={classes.label}>{column.display_name}</Grid>
-                <Grid item xs={6}>
+                <Grid item xs={5} className={classes.label}>{column.display_name}</Grid>
+                <Grid item xs={7}>
                   <Calendar                    
                     selectedDate={member && member[column.field]}
                     onDateSubmit={updateDateField(column.field)}

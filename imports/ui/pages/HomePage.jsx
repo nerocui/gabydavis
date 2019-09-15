@@ -7,15 +7,20 @@ import { setSelected } from "../../actions";
 import KEYID from "../../constants/key_id";
 import { ReactBingmaps } from "react-bingmaps";
 import {
-  Fabric,
-  MarqueeSelection,
-  DetailsList,
-  Selection,
-  SelectionMode,
-  DetailsListLayoutMode,
-  HoverCard,
-  HoverCardType
-} from "office-ui-fabric-react";
+	Fabric,
+	MarqueeSelection,
+	DetailsList,
+	Selection,
+	SelectionMode,
+	DetailsListLayoutMode,
+	HoverCard,
+	HoverCardType,
+	PersonaInitialsColor,
+	Persona,
+	PersonaSize,
+	Text,
+} from 'office-ui-fabric-react';
+
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -71,59 +76,96 @@ class HomePage extends React.Component {
     return "";
   }
 
-  getColumns() {
-    const { RECORD_TEMPLATE } = Meteor.settings.public;
-    if (!RECORD_TEMPLATE) {
-      return [];
-    }
-    return RECORD_TEMPLATE.map(column => {
-      return {
-        key: column.field,
-        name: column.display_name,
-        // minWidth: 210,
-        // maxWidth: 350,
-        isRowHeader: true,
-        isResizable: true,
-        // isSorted: true,
-        // isSortedDescending: false,
-        // sortAscendingAriaLabel: 'Sorted A to Z',
-        // sortDescendingAriaLabel: 'Sorted Z to A',
-        // onColumnClick: this._onColumnClick,
-        isPadded: true,
-        onRender: item => {
-          switch (column.type) {
-            case "people":
-              console.log("rendering people");
-              return (
-                <div>
-                  {item.people.map(person => (
-                    <div>{`${person.first_name} ${person.last_name}`}</div>
-                  ))}
-                </div>
-              );
-            default:
-              if (column.field === "street_address") {
-                const plainCardProps = {
-                  onRenderPlainCard: this.onRenderPlainCard,
-                  renderData: item
-                };
-                console.log("rendering street address");
-                return (
-                  <HoverCard
-                    plainCardProps={plainCardProps}
-                    instantOpenOnClick={true}
-                    type={HoverCardType.plain}
-                  >
-                    {item[column.field]}
-                  </HoverCard>
-                );
-              }
-              return <div>{item[column.field]}</div>;
-          }
-        }
-      };
-    });
-  }
+	getColumns() {
+		const { RECORD_TEMPLATE } = Meteor.settings.public;
+		if (!RECORD_TEMPLATE) {
+			return [];
+		}
+		return RECORD_TEMPLATE.map(column => {
+			return {
+				key: column.field,
+				name: column.display_name,
+				minWidth: 150,
+				maxWidth: 200,
+				isRowHeader: true,
+				isResizable: true,
+				// isSorted: true,
+				// isSortedDescending: false,
+				// sortAscendingAriaLabel: 'Sorted A to Z',
+				// sortDescendingAriaLabel: 'Sorted Z to A',
+				// onColumnClick: this._onColumnClick,
+				isPadded: true,
+				onRender: (item) => {
+					switch (column.type) {
+						case 'people':
+							console.log('rendering people');
+							
+							return (
+								<div>
+									{item.people.map(person => {
+										const colors = [
+											PersonaInitialsColor.blue,
+											PersonaInitialsColor.coolGray,
+											PersonaInitialsColor.cyan,
+											PersonaInitialsColor.green,
+											PersonaInitialsColor.lightBlue,
+										];
+										const random = parseInt((Math.random() * (colors.length + 1)), 10);
+										const personaData = {
+											secondaryText: person.role,
+										};
+										const personaWithInitials = {
+											...personaData,
+											text: `${person.first_name} ${person.last_name || ''}`,
+											imageInitials: `${person.first_name.charAt(0)}${person.last_name?person.last_name.charAt(0):''}`
+										};
+										return (
+											<div className="persona">
+												<Persona
+													{...personaWithInitials}
+													initialsColor={PersonaInitialsColor.blue}
+													size={PersonaSize.size40}
+												/>
+											</div>
+										);
+									})}
+								</div>
+							);
+						case 'date':
+							return (
+								<div>{new Date(item[column.field]).toDateString()}</div>
+							);
+						default:
+							if (column.field === 'street_address') {
+								const plainCardProps = {
+									onRenderPlainCard: this.onRenderPlainCard,
+									renderData: item
+								};
+								console.log('rendering street address');
+								return (
+									<HoverCard plainCardProps={plainCardProps} instantOpenOnClick={true} type={HoverCardType.plain}>
+										{item[column.field]}
+									</HoverCard>
+								);
+							}
+							if (column.field === 'other_notes') {
+								return (
+									<Text block>
+										{item[column.field]}
+									</Text>
+								);
+							}
+							return (
+								<div>
+									{item[column.field]}
+								</div>
+							);
+					}
+					
+				}
+			};
+		});
+	}
 
   render() {
     if (this.props.keys && this.props.keys.length !== 0) {
