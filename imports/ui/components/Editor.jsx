@@ -83,8 +83,15 @@ const Editor = ({ columns, record, closeModal }) => {
               valueComp = (<PeopleEditor isNew></PeopleEditor>)
             }
           } else {
-            if (column.type === "string") {
-              valueComp = (<EditableTextfield value={record && record[column.field]} isNew={!record}></EditableTextfield>);
+            switch (column.type) {
+              case "string":
+                valueComp = 
+                    <EditableTextfield
+                      value={record && record[column.field]}
+                    />;
+                  break;
+              case "number":
+                break;
             }
           }
 

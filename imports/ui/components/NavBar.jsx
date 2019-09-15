@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { Accounts } from "meteor/accounts-base";
 import Editor from "../components/Editor";
 import { withRouter } from "react-router-dom";
+import SearchBar from '../components/SearchBar';
 
 initializeIcons();
 
@@ -162,7 +163,7 @@ class NavBar extends React.Component {
             <CommandBar items={items(this.onAddRow, this.onDeleteRow)} />
           </Stack.Item>
           <Stack.Item align="center" disableShrink grow={1}>
-            <SearchBox placeholder="Search" />
+            <SearchBar />
           </Stack.Item>
           <Stack.Item grow={1}>
             <Stack horizontal horizontalAlign="end">

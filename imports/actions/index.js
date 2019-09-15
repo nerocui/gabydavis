@@ -26,3 +26,10 @@ export function setSelected(items) {
 		payload: items,
 	};
 }
+
+export function setRecords(items) {
+	return {
+		type: TYPES.SET_RECORDS,
+		payload: items,
+	};
+}
