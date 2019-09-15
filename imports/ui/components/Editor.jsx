@@ -4,7 +4,7 @@ import { withTracker } from "meteor/react-meteor-data";
 import { DefaultButton, Label, PrimaryButton, Stack } from "office-ui-fabric-react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from '@material-ui/core/styles';
-
+import CalendarField from './CalendarField';
 import EditableTextfield from "./EditableTextfield";
 import APIS from '../../constants/methods';
 
@@ -87,7 +87,13 @@ const Editor = ({ columns, record, closeModal }) => {
                       value={record && record[column.field]}
                     />;
                   break;
-              case "number":
+              case "date":
+                valueComp = 
+                  <CalendarField
+                    fieldLabel={column.display_name}
+                    selectedDate={record && record[column.field]}
+                    onDateSubmit={updateField(column.field)}
+                  />
                 break;
             }
           }

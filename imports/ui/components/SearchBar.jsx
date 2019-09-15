@@ -19,9 +19,9 @@ const SearchBar = ({setRecords}) => {
 				}
 			],
 			child_id: 'vbfhsudebfj',
-			street_address: 'dfsgh',
-			city: 'sfdghjmjtrtewrt',
-			postal_code: 'asfgdfhretwrtr',
+			street_address: '6551 No 3 Rd',
+			city: 'Richmond',
+			postal_code: 'V6Y 2B6',
 			phone_number: 12345678,
 			cell_phone_number: 2134567,
 			email: 'fgdhftre',
