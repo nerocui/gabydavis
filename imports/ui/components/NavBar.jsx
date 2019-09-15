@@ -1,82 +1,100 @@
-import React from 'react';
+import React from "react";
 import {
-	CommandBar,
-	initializeIcons,
-	Stack,
-	SearchBox,
-	Modal,
+  CommandBar,
+  initializeIcons,
+  Stack,
+  SearchBox,
+  Modal
 } from "office-ui-fabric-react";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import { Accounts } from "meteor/accounts-base";
-import Settings from '../components/Settings';
-import Editor from '../components/Editor';
+import Editor from "../components/Editor";
+import { withRouter } from "react-router-dom";
 
 initializeIcons();
 
 const items = (onAddRow, onDeleteRow) => {
-	return [
-		{
-			key: 'addRow',
-			text: 'Insert row',
-			iconProps: { iconName: 'Add' },
-			onClick: onAddRow
-		  },
-		  {
-			key: 'deleteRow',
-			text: 'Delete row',
-			iconProps: { iconName: 'Delete' },
-			onClick: onDeleteRow
-		  },
-	];
+  return [
+    {
+      key: "addRow",
+      text: "Insert row",
+      iconProps: { iconName: "Add" },
+      onClick: onAddRow
+    },
+    {
+      key: "deleteRow",
+      text: "Delete row",
+      iconProps: { iconName: "Delete" },
+      onClick: onDeleteRow
+    }
+  ];
 };
 
-const userCommandBarItems = (name, settingOnClick, handleLogout) => [
-	{
-		key: "userTab",
-		name,
-		cacheKey: "userTabCacheKey", // changing this key will invalidate this items cache
-		iconProps: {
-			iconName: "Contact",
-		},
-		ariaLabel: "User Settings",
-		subMenuProps: {
-			items: [
-				{
-					key: "userProfile",
-					name: "Profile",
-					iconProps: {
-						iconName: "ContactInfo",
-					},
-					"data-automation-id": "newEmailButton",
-				},
-			
-				{
-					key: "logOut",
-					name: "Log Out",
-					iconProps: {
-						iconName: "Leave",
-					},
-					onClick: handleLogout,
-				},
-			],
-		},
-	},
-	{
-		key: "accountSettings",
-		name: "Settings",
-		iconProps: {
-			iconName: "Settings",
-		},
-		onClick: settingOnClick,
-	},
+const userCommandBarItems = (name, routerHistory, handleLogout) => [
+  {
+    key: "userTab",
+    name,
+    cacheKey: "userTabCacheKey", // changing this key will invalidate this items cache
+    iconProps: {
+      iconName: "Contact"
+    },
+    ariaLabel: "User Settings",
+    subMenuProps: {
+      items: [
+        {
+          key: "userProfile",
+          name: "Profile",
+          iconProps: {
+            iconName: "ContactInfo"
+          },
+          "data-automation-id": "newEmailButton"
+        },
+
+        {
+          key: "logOut",
+          name: "Log Out",
+          iconProps: {
+            iconName: "Leave"
+          },
+          onClick: handleLogout
+        }
+      ]
+    }
+  },
+  {
+    key: "accountSettings",
+    name: "Set",
+    iconProps: {
+      iconName: "Settings"
+    },
+    subMenuProps: {
+      items: [
+        {
+          key: "import",
+          name: "Import",
+          iconProps: {
+            iconName: "Import"
+          },
+          onClick: routerHistory
+        },
+        {
+          key: "export",
+          name: "Export",
+          iconProps: {
+            iconName: "Export"
+          },
+          onClick: routerHistory
+        }
+      ]
+    }
+  }
 ];
 
 const nonShrinkingStackItemStyles = {
-	root: {
-	  width: '15rem'
-	}
-  };
-
+  root: {
+    width: "15rem"
+  }
+};
 
 class NavBar extends React.Component {
 	constructor(props) {
@@ -165,9 +183,13 @@ class NavBar extends React.Component {
 }
 
 function mapStateToProps(state) {
-	return {
-		user: state.AuthState.user,
-	};
+  return {
+    user: state.AuthState.user
+  };
 }
 
-export default connect(mapStateToProps)(NavBar);
+const ConnectedNavBar = connect(mapStateToProps)(NavBar);
+
+export default withRouter(({ history }) => (
+  <ConnectedNavBar history={history} />
+));

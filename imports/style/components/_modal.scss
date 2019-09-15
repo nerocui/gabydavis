@@ -5,6 +5,34 @@
 }
 
 .modal--setting__container {
-	height: 50rem;
-	width: 70rem;
+  height: 20rem;
+  width: 50rem;
+}
+
+.modal--setting__closeButton {
+  background-color: red;
+  color: white;
+  position: absolute;
+  right: 0;
+}
+
+.modal--setting__importButton {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.modal--setting__dropZone {
+  height: 10rem;
+  margin: auto;
+  padding: 70px 50px;
+  border: 3px solid green;
+  text-align: center;
+}
+
+.modal--setting__modalTopBottom {
+  height: 5rem;
+  margin: auto;
+  padding: auto;
+  border: 3px solid red;
 }

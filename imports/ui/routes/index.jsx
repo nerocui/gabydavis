@@ -2,16 +2,11 @@ import React from "react";
 import { withTracker } from "meteor/react-meteor-data";
 import { Meteor } from "meteor/meteor";
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
+import SettingsPage from "../pages/SettingsPage";
 import ChatListPage from '../pages/chatListPage';
-import MomentsPage from '../pages/momentsPage';
-import ContactsListPage from '../pages/contactsPage';
-import MePage from '../pages/mePage';
-import BottomTab from '../components/bottomTab';
 import NavBar from '../components/NavBar';
-import { isAuthenticated } from "../../util/authUtil";
 import { createBrowserHistory } from 'history';
 import PrivateRoute from './PrivateRoute';
 import { login, logout, setKeys } from '../../actions';
@@ -47,7 +42,8 @@ class Routes extends React.Component {
 		return (
 			<Router history={history}>
 				<Switch>
-					<Route exact path='/' component={LoginPage }/>
+					<Route exact path='/' component={LoginPage}/>
+					<Route exact path='/settings' component={SettingsPage}/>
 					<div>
 						<NavBar />
 						<Switch>
