@@ -6,7 +6,8 @@ import algoliasearch from 'algoliasearch';
 
 const key = Meteor.settings.apis.filter(api => api.id === "ALGOLIA")[0].value;
 const client = algoliasearch(key.algoliaApplicationID, key.algoliaAdminKey);
-const index = client.initIndex('gaby_davis_records');
+const indexName = process.env.NODE_ENV === 'production' ? 'prod_gabydavis' : 'gaby_davis_records';
+const index = client.initIndex(indexName);
 
 Meteor.methods({
 	[API.RECORD_API.INSERT](record) {
@@ -28,8 +29,8 @@ Meteor.methods({
 		index.saveObject({
 			objectID: _id,
 			...Records.findOne({_id}),
-		}, () => {
-			console.log("Fail to update record in algolia");
+		}, (e) => {
+			console.log("Fail to update record in algolia", e);
 		});
 	},
 	[API.RECORD_API.REMOVE_PERSON](_id, person_id) {

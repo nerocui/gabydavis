@@ -1,8 +1,21 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
+import { withTracker } from "meteor/react-meteor-data";
 import { connect } from 'react-redux';
 import { setSelected } from '../../actions';
-import { Fabric, MarqueeSelection, DetailsList, Selection, SelectionMode, DetailsListLayoutMode } from 'office-ui-fabric-react';
+import KEYID from "../../constants/key_id";
+import { ReactBingmaps } from "react-bingmaps";
+import {
+	Fabric,
+	MarqueeSelection,
+	DetailsList,
+	Selection,
+	SelectionMode,
+	DetailsListLayoutMode,
+	HoverCard,
+	HoverCardType,
+} from 'office-ui-fabric-react';
+
 
 class HomePage extends React.Component {
 	constructor(props) {
@@ -16,10 +29,40 @@ class HomePage extends React.Component {
 			columns: this.getColumns(),
 		};
 		this.onItemInvoked = this.onItemInvoked.bind(this);
+		this.onRenderPlainCard = this.onRenderPlainCard.bind(this);
 	}
 
 	onItemInvoked(e) {
 		console.log("Item invoked:", e);
+	}
+
+	onRenderPlainCard(item) {
+		if (this.bingApi !== '' && this.props.isMapEnabled) {
+			const boundary = {
+				search: `${item.street_address}, ${item.city}, ${item.postal_code}`,
+				option: {
+				  entityType: "PopulatedPlace"
+				},
+				polygonStyle: {
+				  fillColor: "rgba(255, 255, 255, 0)",
+				  strokeColor: "#a495b2",
+				  strokeThickness: 2
+				}
+			};
+			return (
+				<div className="bingmap">
+					<ReactBingmaps
+						bingmapKey={this.bingApi}
+						center={[13.0827, 80.2707]}
+						mapTypeId={"road"}
+						navigationBarMode={"compact"}
+						boundary={boundary}
+						style={{ height: "100%" }}
+					/>
+				</div>
+			)
+		}
+		return '';
 	}
 
 	getColumns() {
@@ -40,13 +83,47 @@ class HomePage extends React.Component {
 				// sortAscendingAriaLabel: 'Sorted A to Z',
 				// sortDescendingAriaLabel: 'Sorted Z to A',
 				// onColumnClick: this._onColumnClick,
-				data: column.type === 'people'?'array':column.type,
-				isPadded: true
+				isPadded: true,
+				onRender: (item) => {
+					switch (column.type) {
+						case 'people':
+							console.log('rendering people');
+							return (
+								<div>
+									{item.people.map(person => <div>{`${person.first_name} ${person.last_name}`}</div>)}
+								</div>
+							);
+						default:
+							if (column.field === 'street_address') {
+								const plainCardProps = {
+									onRenderPlainCard: this.onRenderPlainCard,
+									renderData: item
+								};
+								console.log('rendering street address');
+								return (
+									<HoverCard plainCardProps={plainCardProps} instantOpenOnClick={true} type={HoverCardType.plain}>
+										{item[column.field]}
+									</HoverCard>
+								);
+							}
+							return (
+								<div>
+									{item[column.field]}
+								</div>
+							);
+					}
+					
+				}
 			};
 		});
 	}
 
 	render() {
+		if (this.props.keys && this.props.keys.length !== 0) {
+			console.log("Keys in chat list page: ", this.props.keys);
+			const bingApi = this.props.keys.filter(key => key._id === KEYID.BING_MAP)[0].value;
+			this.bingApi = bingApi;
+		}
 		return (
 			<Fabric>
 				<MarqueeSelection selection={this.selection}>
@@ -76,6 +153,7 @@ class HomePage extends React.Component {
 function mapStateToProps(state) {
 	return {
 		items: state.RecordState.items,
+		keys: state.KeyState.keys,
 	};
 }
 
@@ -85,4 +163,13 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+const HomePageWithTracker = withTracker(() => {
+	const features = Meteor.settings.public.FEATURE_FLAGS;
+	const isMapEnabled = features.filter(feature => feature.id === "USE_MAP")[0]
+	  .enabled;
+	return {
+	  isMapEnabled,
+	};
+  })(HomePage);
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePageWithTracker);

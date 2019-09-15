@@ -7,18 +7,21 @@ import { setRecords } from '../../actions';
 const SearchBar = ({setRecords}) => {
 	const items = [
 		{
+			file_number: 'some file number',
+			date_helped: '03/04/2018',
 			people: [
 				{
 					_id: 'vbfhsudebfj',
 					first_name: "hduoasdh",
 					last_name: "dasdas",
-					role: 'child'
+					role: 'child',
+					date_of_birth: '03/04/2018'
 				}
 			],
 			child_id: 'vbfhsudebfj',
-			street_address: 'dfsgh',
-			city: 'sfdghjmjtrtewrt',
-			postal_code: 'asfgdfhretwrtr',
+			street_address: '6551 No 3 Rd',
+			city: 'Richmond',
+			postal_code: 'V6Y 2B6',
 			phone_number: 12345678,
 			cell_phone_number: 2134567,
 			email: 'fgdhftre',

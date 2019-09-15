@@ -10,9 +10,11 @@ import {
 } from "office-ui-fabric-react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
+import uniqid from "uniqid";
 
 import Calendar from "../components/CalendarField";
 
+import PeopleEditor from "../components/PeopleEditor";
 import EditableTextfield from "../components/EditableTextfield";
 import APIS from "../../constants/methods";
 
@@ -41,13 +43,33 @@ const buttonBarStyles = {
   }
 };
 
-const Editor = ({ columns, record, closeModal, history }) => {
+const Editor = ({ columns, record, history }) => {
   const classes = useStyles();
   console.log("props history", history);
 
   let initRecord = {};
   columns.forEach(column => {
-    initRecord[column.field] = "";
+    if (column.type === "people") {
+      initRecord[column.field] = [
+        {
+          _id: uniqid(),
+          role: "parent",
+          isNew: true,
+        },
+        {
+          _id: uniqid(),
+          role: "parent",
+          isNew: true,
+        },
+        {
+          _id: uniqid(),
+          role: "child",
+          isNew: true,
+        },
+      ]
+    } else {
+      initRecord[column.field] = "";
+    }
   });
   const [fullRecord, setFullRecord] = React.useState(initRecord);
   const editorTitle = record ? "Details" : "New Record";
@@ -67,10 +89,17 @@ const Editor = ({ columns, record, closeModal, history }) => {
       [fieldId]: date
     }));
   };
+  const updateArrayField = fieldId => array => {
+    setFullRecord(oldValues => ({
+      ...oldValues,
+      [fieldId]: array
+    }));
+  };
+
 
   const saveRecord = () => {
     Meteor.call(APIS.RECORD_API.INSERT, fullRecord);
-    closeModal();
+    history.goBack();
   };
 
   console.log("edit page state:::", fullRecord);
@@ -104,6 +133,13 @@ const Editor = ({ columns, record, closeModal, history }) => {
                 <Calendar
                   selectedDate={new Date()}
                   onDateSubmit={updateDateField(column.field)}
+                />
+              );
+            } else if (column.type === "people") {
+              valueComp = (
+                <PeopleEditor 
+                  people={fullRecord[column.field]}
+                  onChange={updateArrayField(column.field)}
                 />
               );
             }

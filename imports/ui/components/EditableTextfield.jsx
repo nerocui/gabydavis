@@ -24,10 +24,15 @@ const CssTextField = withStyles({
 class EditableTextfield extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+
+    this.state = (this.props.value !== null) ? {
       editing: false,
-      content: ""
+      content: this.props.value
+    } : {
+      editing: false,
+      content: ''
     };
+
     this.renderTextblock = this.renderTextblock.bind(this);
     this.renderTextfield = this.renderTextfield.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
