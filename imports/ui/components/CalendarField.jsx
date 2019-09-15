@@ -1,10 +1,10 @@
-import 'date-fns';
-import React from 'react';
-import DateFnsUtils from '@date-io/date-fns';
+import "date-fns";
+import React from "react";
+import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+  KeyboardDatePicker
+} from "@material-ui/pickers";
 
 /**
  * Props must include:
@@ -25,6 +25,7 @@ import {
 export default function MaterialUIPickers(props) {
   const [selectedDate, setSelectedDate] = React.useState(props.selectedDate);
 
+  // TO-Check Not used anymore in editor.
   function handleDateChange(date) {
     setSelectedDate(date);
     props.onDateSubmit(date);
@@ -32,18 +33,18 @@ export default function MaterialUIPickers(props) {
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          format="MM/dd/yyyy"
-          id="date-picker-inline"
-          label={props.fieldLabel}
-          value={selectedDate}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
+      <KeyboardDatePicker
+        disableToolbar
+        variant="inline"
+        format="MM/dd/yyyy"
+        id="date-picker-inline"
+        label={props.fieldLabel}
+        value={selectedDate}
+        onChange={props.onDateSubmit}
+        KeyboardButtonProps={{
+          "aria-label": "change date"
+        }}
+      />
     </MuiPickersUtilsProvider>
   );
 }
