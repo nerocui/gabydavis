@@ -160,7 +160,7 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
           _id: "123458",
           first_name: "Jo",
           last_name: "Z",
-          role: "parent",
+          role: "child",
           date_of_birth: new Date('2000-11-22T03:24:00')
         },
       ],
@@ -176,7 +176,7 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
       length_of_treatment: "10",
       treatment_notes: "N/A",
       relapse: false,
-      date_of_relape: new Date('2011-11-20T03:24:00'),
+      date_of_relapse: new Date('2011-11-20T03:24:00'),
       date_of_application: new Date('2012-11-20T03:24:00'),
       date_of_visit: new Date('2012-11-20T03:24:00'),
       location_of_visit: "RMH",
