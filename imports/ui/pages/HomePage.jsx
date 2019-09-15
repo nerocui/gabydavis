@@ -14,6 +14,10 @@ import {
 	DetailsListLayoutMode,
 	HoverCard,
 	HoverCardType,
+	PersonaInitialsColor,
+	Persona,
+	PersonaSize,
+	Text,
 } from 'office-ui-fabric-react';
 
 
@@ -74,8 +78,8 @@ class HomePage extends React.Component {
 			return {
 				key: column.field,
 				name: column.display_name,
-				// minWidth: 210,
-				// maxWidth: 350,
+				minWidth: 150,
+				maxWidth: 200,
 				isRowHeader: true,
 				isResizable: true,
 				// isSorted: true,
@@ -88,10 +92,41 @@ class HomePage extends React.Component {
 					switch (column.type) {
 						case 'people':
 							console.log('rendering people');
+							
 							return (
 								<div>
-									{item.people.map(person => <div>{`${person.first_name} ${person.last_name}`}</div>)}
+									{item.people.map(person => {
+										const colors = [
+											PersonaInitialsColor.blue,
+											PersonaInitialsColor.coolGray,
+											PersonaInitialsColor.cyan,
+											PersonaInitialsColor.green,
+											PersonaInitialsColor.lightBlue,
+										];
+										const random = parseInt((Math.random() * (colors.length + 1)), 10);
+										const personaData = {
+											secondaryText: person.role,
+										};
+										const personaWithInitials = {
+											...personaData,
+											text: `${person.first_name} ${person.last_name || ''}`,
+											imageInitials: `${person.first_name.charAt(0)}${person.last_name?person.last_name.charAt(0):''}`
+										};
+										return (
+											<div className="persona">
+												<Persona
+													{...personaWithInitials}
+													initialsColor={PersonaInitialsColor.blue}
+													size={PersonaSize.size40}
+												/>
+											</div>
+										);
+									})}
 								</div>
+							);
+						case 'date':
+							return (
+								<div>{new Date(item[column.field]).toDateString()}</div>
 							);
 						default:
 							if (column.field === 'street_address') {
@@ -104,6 +139,13 @@ class HomePage extends React.Component {
 									<HoverCard plainCardProps={plainCardProps} instantOpenOnClick={true} type={HoverCardType.plain}>
 										{item[column.field]}
 									</HoverCard>
+								);
+							}
+							if (column.field === 'other_notes') {
+								return (
+									<Text block>
+										{item[column.field]}
+									</Text>
 								);
 							}
 							return (
