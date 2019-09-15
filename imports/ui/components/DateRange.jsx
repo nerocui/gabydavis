@@ -1,7 +1,7 @@
 import React from "react";
 import CalendarField from "./CalendarField";
 import { areStartAndEndDatesValid, getDateRange } from "../../util/date";
-import Grid from '@material-ui/core/Grid';
+import Grid from "@material-ui/core/Grid";
 
 /**
  * Props must include:
@@ -71,17 +71,27 @@ class DateRange extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Grid container justify="space-around">
-          <CalendarField
-            fieldLabel={"Treatment start date"}
-            selectedDate={this.props.startDate}
-            onDateSubmit={onFirstDateSubmit}
-          />
-          <CalendarField
-            fieldLabel={"Treatment end date"}
-            selectedDate={this.props.endDate}
-            onDateSubmit={onSecondDateSubmit}
-          />
+        <Grid
+          container
+          direction="row"
+          justify="flex-start"
+          alignItems="center"
+          spacing={2}
+        >
+          <Grid item>
+            <CalendarField
+              fieldLabel={"Treatment start date"}
+              selectedDate={this.props.startDate}
+              onDateSubmit={onFirstDateSubmit}
+            />
+          </Grid>
+          <Grid item>
+            <CalendarField
+              fieldLabel={"Treatment end date"}
+              selectedDate={this.props.endDate}
+              onDateSubmit={onSecondDateSubmit}
+            />
+          </Grid>
         </Grid>
       </React.Fragment>
     );
