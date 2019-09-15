@@ -42,6 +42,8 @@ const Editor = ({ columns, record, closeModal }) => {
   })
   const [fullRecord, setFullRecord] = React.useState(initRecord);
 
+  const editorTitle = record ? "Details" : "New Record";
+
   const updateField = fieldId => event => {
     const value = event.target.value;
     setFullRecord(oldValues => ({
@@ -59,7 +61,7 @@ const Editor = ({ columns, record, closeModal }) => {
     <React.Fragment>
       <div className="modal--editor__container">
         <Stack horizontal>
-          <Label styles={titleStyles}>Details</Label>
+          <Label styles={titleStyles}>{editorTitle}</Label>
           <PrimaryButton text="x" onClick={closeModal}></PrimaryButton>
         </Stack>
         
@@ -68,11 +70,17 @@ const Editor = ({ columns, record, closeModal }) => {
           if (!record) {
             // New record
             if (column.type === "string") {
-              valueComp = (<TextField variant="outlined" onChange={updateField(column.field)} value={fullRecord[column.field]}></TextField>)
+              valueComp = (
+                <TextField 
+                  variant="outlined" 
+                  onChange={updateField(column.field)} 
+                  margin="dense"
+                  value={fullRecord[column.field]} />
+              )
             }
           } else {
             if (column.type === "string") {
-              valueComp = (<EditableTextfield text={record && record[column.field]} isNew={!record}></EditableTextfield>);
+              valueComp = (<EditableTextfield value={record && record[column.field]} isNew={!record}></EditableTextfield>);
             }
           }
 

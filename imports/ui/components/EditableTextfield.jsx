@@ -18,9 +18,6 @@ const CssTextField = withStyles({
         borderColor: "purple"
       }
     },
-    "& .MuiOutlinedInput-input": {
-      padding: 3
-    }
   }
 })(TextField);
 
@@ -81,6 +78,7 @@ class EditableTextfield extends React.Component {
             variant="outlined"
             value={this.state.content}
             onChange={this.onChange}
+            margin="dense"
             autoFocus
           />
         </form>
