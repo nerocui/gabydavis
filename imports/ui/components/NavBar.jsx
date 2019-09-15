@@ -137,8 +137,8 @@ class NavBar extends React.Component {
   }
 
   onAddRow() {
-		console.log("add row");
-		this.openEditor();
+    console.log("add row");
+    this.openEditor();
   }
 
   onDeleteRow() {
