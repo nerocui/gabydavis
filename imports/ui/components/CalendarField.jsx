@@ -25,7 +25,6 @@ import {
 export default function MaterialUIPickers(props) {
   const [selectedDate, setSelectedDate] = React.useState(props.selectedDate);
 
-  // TO-Check Not used anymore in editor.
   function handleDateChange(date) {
     setSelectedDate(date);
     props.onDateSubmit(date);
@@ -40,7 +39,7 @@ export default function MaterialUIPickers(props) {
         id="date-picker-inline"
         label={props.fieldLabel}
         value={selectedDate}
-        onChange={props.onDateSubmit}
+        onChange={handleDateChange}
         KeyboardButtonProps={{
           "aria-label": "change date"
         }}
