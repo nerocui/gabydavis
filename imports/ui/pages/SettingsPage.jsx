@@ -1,7 +1,13 @@
 import React from "react";
 import Dropzone from "../components/dropzone.jsx";
-import { DefaultButton } from "office-ui-fabric-react";
+import {
+  DefaultButton,
+  Label,
+  PrimaryButton,
+  Stack
+} from "office-ui-fabric-react";
 import xlsx from "xlsx";
+import { withRouter } from "react-router-dom";
 
 import recordParser from "../../util/recordParser.js";
 
@@ -56,17 +62,24 @@ class SettingsPage extends React.Component {
   }
 
   render() {
+    const { history } = this.props;
     return (
       <div className="page--settings-container">
-        <div className="page--settings-dropZone">
-          <Dropzone
-            className="page--settings-dropZone-container"
-            wrapperStyle="component--admin__import"
-            inActiveText="Click or drop file(s) here to start the import..."
-            activeText="Drop here to start the import..."
-            handleChange={this.handleChange}
+        <Stack horizontal>
+          <Label className="page--settings-title">Settings</Label>
+          <PrimaryButton
+            className="page--settings-closeButton"
+            text="x"
+            onClick={() => history.goBack()}
           />
-        </div>
+        </Stack>
+        <Dropzone
+          className="page--settings-dropZone-container"
+          wrapperStyle="component--admin__import"
+          inActiveText="Click or drop file(s) here to start the import..."
+          activeText="Drop here to start the import..."
+          handleChange={this.handleChange}
+        />
         <DefaultButton
           text="Export"
           onClick={this.exportFile}
@@ -77,4 +90,4 @@ class SettingsPage extends React.Component {
   }
 }
 
-export default SettingsPage;
+export default withRouter(SettingsPage);

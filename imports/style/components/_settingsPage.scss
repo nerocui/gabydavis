@@ -32,3 +32,13 @@
   height: 50px;
   top: 50%;
 }
+
+.page--settings-closeButton {
+  right: 5;
+  background-color: red;
+}
+
+.page--settings-title {
+  font-size: 1.5rem;
+  flex-grow: 1;
+}
