@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from '@material-ui/core/styles';
 
 import EditableTextfield from "./EditableTextfield";
+import PeopleEditor from "./PeopleEditor";
 import APIS from '../../constants/methods';
 
 const useStyles = makeStyles(theme => ({
@@ -78,6 +79,8 @@ const Editor = ({ columns, record, closeModal }) => {
                   margin="dense"
                   value={fullRecord[column.field]} />
               )
+            } else if (column.type === "people") {
+              valueComp = (<PeopleEditor isNew></PeopleEditor>)
             }
           } else {
             if (column.type === "string") {
