@@ -6,7 +6,8 @@ import {
   DefaultButton,
   Label,
   PrimaryButton,
-  Stack
+  Stack,
+  Toggle
 } from "office-ui-fabric-react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
@@ -54,19 +55,19 @@ const Editor = ({ columns, record, history }) => {
         {
           _id: uniqid(),
           role: "parent",
-          isNew: true,
+          isNew: true
         },
         {
           _id: uniqid(),
           role: "parent",
-          isNew: true,
+          isNew: true
         },
         {
           _id: uniqid(),
           role: "child",
-          isNew: true,
-        },
-      ]
+          isNew: true
+        }
+      ];
     } else {
       initRecord[column.field] = "";
     }
@@ -96,12 +97,19 @@ const Editor = ({ columns, record, history }) => {
     }));
   };
 
+  const updateBooleanField = fieldId => (ev, checked) => {
+    setFullRecord(oldValues => ({
+      ...oldValues,
+      [fieldId]: checked
+    }));
+  };
 
   const saveRecord = () => {
     Meteor.call(APIS.RECORD_API.INSERT, fullRecord);
     history.goBack();
   };
 
+  console.log("edit page column:::", columns);
   console.log("edit page state:::", fullRecord);
 
   return (
@@ -137,9 +145,16 @@ const Editor = ({ columns, record, history }) => {
               );
             } else if (column.type === "people") {
               valueComp = (
-                <PeopleEditor 
+                <PeopleEditor
                   people={fullRecord[column.field]}
                   onChange={updateArrayField(column.field)}
+                />
+              );
+            } else if (column.type === "boolean") {
+              valueComp = (
+                <Toggle
+                  onText="True"
+                  onChange={updateBooleanField(column.field)}
                 />
               );
             }
