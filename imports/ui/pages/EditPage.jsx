@@ -216,8 +216,7 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
   }
 
   return (
-    <React.Fragment>
-      <div>
+      <div className="page--inner__container">
         <Stack horizontal styles={topStackStyles}>
           <Label styles={titleStyles}>{editorTitle}</Label>
           <DefaultButton
@@ -332,7 +331,6 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
           </Stack>
         )}
       </div>
-    </React.Fragment>
   );
 };
 
