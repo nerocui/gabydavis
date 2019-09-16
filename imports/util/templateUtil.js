@@ -50,6 +50,29 @@ function onRenderPlainCard(item) {
 	);
 }
 
+function renderMap(item) {
+	if (!(item.street_address && item.city && item.postal_code && item.street_address !== '' && item.city !== '' && item.postal_code !== '')) {
+		return item.street_address || '';
+	}
+	const boundary = {
+		search: `${item.street_address}, ${item.city}, ${item.postal_code}`,
+		option: {
+			entityType: "PopulatedPlace"
+		},
+		polygonStyle: {
+			fillColor: "rgba(255, 255, 255, 0)",
+			strokeColor: "#a495b2",
+			strokeThickness: 2
+		}
+	};
+	return (
+		<div className="component--bingmap__container">
+			<div className="element--bingmap__address">{item.street_address}</div>
+			<Map boundary={boundary}/>
+		</div>
+	);
+}
+
 function isValidDate(d) {
 	return d instanceof Date && !isNaN(d);
 }
@@ -90,6 +113,9 @@ function getMinWidth(column) {
 		default:
 			if (column.field === 'file_number' || column.field === 'child_id') {
 				return 70;
+			}
+			if (column.field === 'street_address') {
+				return 200;
 			}
 			return 150;
 	}
@@ -148,15 +174,7 @@ export function getColumns() {
 						);
 					default:
 						if (column.field === 'street_address') {
-							const plainCardProps = {
-								onRenderPlainCard: onRenderPlainCard,
-								renderData: item
-							};
-							return (
-								<HoverCard plainCardProps={plainCardProps} instantOpenOnClick={true} type={HoverCardType.plain}>
-									{item[column.field]}
-								</HoverCard>
-							);
+							return renderMap(item);
 						}
 						if (column.field === 'other_notes') {
 							return (

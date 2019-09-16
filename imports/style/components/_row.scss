@@ -20,3 +20,10 @@
 	word-wrap: break-word;      /* IE */
 }
 
+.component--bingmap__container {
+	width: 20rem;
+	height: 10rem;
+	.element--bingmap__address {
+		margin-bottom: 2rem;
+	}
+}
