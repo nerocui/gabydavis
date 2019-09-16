@@ -3,3 +3,8 @@
 	width: 100vw;
 	background-color: black;
 }
+
+.page--inner__container {
+	height: calc(100vh - 44px);
+	overflow-y: auto;
+}

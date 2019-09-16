@@ -1,11 +1,11 @@
 import TYPES from '../actions/type';
 
-const initialState = {
+export const RecordInitialState = {
 	selected: [],
 	items: []
 };
 
-export default (state = initialState, action) => {
+export default (state = RecordInitialState, action) => {
 	switch (action.type) {
 		case TYPES.SET_SELECTED:
 			return Object.assign({}, state, {selected: action.payload});

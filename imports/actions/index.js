@@ -27,6 +27,12 @@ export function setSelected(items) {
 	};
 }
 
+export function selectItem(item) {
+	return dispatch => {
+		dispatch(setSelected(item));
+	};
+}
+
 export function setRecords(items) {
 	return {
 		type: TYPES.SET_RECORDS,
@@ -35,9 +41,33 @@ export function setRecords(items) {
 }
 
 
+
+
 export function setSearchTerm(term) {
 	return {
 		type: TYPES.SET_SEARCH_TERM,
 		payload: term,
 	};
+}
+
+export function onSearchTermChange(e) {
+	return dispatch => {
+		console.log("term is", e.target.value);
+		dispatch(setSearchTerm(e.target.value));
+	};
+}
+
+export function search(index, term) {
+	console.log('trying to search');
+	return dispatch => {
+		console.log('searching');
+		index.search({query: term})
+			.then(({ hits }) => {
+				console.log("hits: ", hits);
+				dispatch(setRecords(hits));
+			})
+			.catch(e => {
+				console.log('errors: ', e);
+			});
+	}
 }

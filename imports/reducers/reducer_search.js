@@ -1,10 +1,10 @@
 import TYPES from '../actions/type';
 
-const initialState = {
+export const SearchInitialState = {
   searchTerm: ""
 };
 
-export default (state = initialState, action) => {
+export default (state = SearchInitialState, action) => {
   switch (action.type) {
     case TYPES.SET_SEARCH_TERM:
       return Object.assign({}, state, {searchTerm: action.payload});

@@ -1,16 +1,11 @@
 import React from "react";
 import { SearchBox } from "office-ui-fabric-react";
 import { connect } from "react-redux";
-import { setRecords } from '../../actions';
+import { onSearchTermChange, search } from '../../actions';
 import algoliaSearch from "algoliasearch";
 
 
-const SearchBar = ({setRecords, keys}) => {
-	const [term, setTerm] = React.useState("");
-
-	function onChange(event) {
-		setTerm(event.target.value);
-	}
+const SearchBar = ({onSearchTermChange, search, keys, searchTerm}) => {
 
 	function onSearch() {
 		const key = keys.filter( key => { return key._id == "ALGOLIA"})[0].value;
@@ -18,13 +13,7 @@ const SearchBar = ({setRecords, keys}) => {
 		const indexName = process.env.NODE_ENV === 'production' ? 'prod_gabydavis' : 'gaby_davis_records';
 		const index = client.initIndex(indexName);
 
-		index.search(term).then(({hits}) => {
-			setRecords(hits)
-		})
-		.catch(error => {
-			console.log(error);
-		});
-		setTerm("");
+		search(index, searchTerm);
 	}
 
 	const items = [
@@ -64,20 +53,16 @@ const SearchBar = ({setRecords, keys}) => {
 	// Use for testing
 	// setRecords(items);
 	return (
-		<SearchBox placeholder="Search" onChange={onChange} onSearch={onSearch} />
+		<SearchBox placeholder="Search" value={searchTerm} onChange={term => onSearchTermChange(term)} onSearch={onSearch} />
 	);
 }
 
-function mapDispatchToProps(dispatch) {
-	return {
-		setRecords: items => dispatch(setRecords(items))
-	};
-}
 
 function mapStateToProps(state) {
 	return {
-		keys: state.KeyState.keys
+		keys: state.KeyState.keys,
+		searchTerm: state.SearchState.searchTerm,
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
+export default connect(mapStateToProps, {onSearchTermChange, search})(SearchBar);

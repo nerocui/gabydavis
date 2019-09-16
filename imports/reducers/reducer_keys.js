@@ -1,10 +1,10 @@
 import TYPES from '../actions/type';
 
-const initialState = {
+export const KeyInitialState = {
 	keys: [],
 };
 
-export default (state = initialState, action) => {
+export default (state = KeyInitialState, action) => {
 	switch (action.type) {
 		case TYPES.SET_KEYS:
 			return Object.assign({}, state, {keys: action.payload});
