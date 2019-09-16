@@ -53,7 +53,7 @@ const MemberDisplayCard = ({member, columns, onDelete}) => {
             return (
               <Grid container key={column.field} className={classes.row}>
                 <Grid item xs={6}>{column.display_name}</Grid>
-                <Grid item xs={6}>{member[column.field] && member[column.field].toDateString()}</Grid>
+                <Grid item xs={6}>{member[column.field] && new Date(member[column.field]).toDateString()}</Grid>
               </Grid>
             );
           } else {
