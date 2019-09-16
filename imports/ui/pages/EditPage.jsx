@@ -46,6 +46,20 @@ const buttonBarStyles = {
     margin: "2rem"
   }
 };
+const topStackStyles = {
+  root: {
+    "margin-left": "2rem",
+    "margin-right": "2rem",
+    "margin-top": "1rem",
+  }
+};
+const bottomStackStyles = {
+  root: {
+    "margin-left": "2rem",
+    "margin-right": "2rem",
+    "margin-bottom": "2rem",
+  }
+};
 
 function mapStateToProps(state) {
   return {
@@ -204,7 +218,7 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
   return (
     <React.Fragment>
       <div>
-        <Stack horizontal>
+        <Stack horizontal styles={topStackStyles}>
           <Label styles={titleStyles}>{editorTitle}</Label>
           <DefaultButton
             text="Back"
@@ -225,6 +239,7 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
           </div>
         )}
 
+        <Stack styles={bottomStackStyles}>
         {columns.map(column => {
           let valueComp;
           if (!record) {
@@ -307,6 +322,7 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
             </React.Fragment>
           );
         })}
+        </Stack>
 
         {!record && (
           <Stack horizontal horizontalAlign="end" styles={buttonBarStyles}>
