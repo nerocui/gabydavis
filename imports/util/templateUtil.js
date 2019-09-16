@@ -10,6 +10,7 @@ import {
 	Text,
 } from 'office-ui-fabric-react';
 import Map from '../ui/components/Map';
+import Note from '../ui/components/Note';
 
 function onRenderPlainCard(item) {
 	const boundary = {
@@ -80,6 +81,10 @@ export function getColumns() {
 					case 'date':
 						return (
 							<div>{new Date(item[column.field]).toDateString()}</div>
+						);
+					case 'note':
+						return (
+							<Note value={item[column.field]}/>
 						);
 					default:
 						if (column.field === 'street_address') {

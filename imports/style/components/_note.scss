@@ -1,0 +1,16 @@
+.component--note__container {
+	height: auto;
+	width: 7rem;
+	background-color: rgb(238, 193, 68);
+	border-top: .3rem solid rgb(70, 70, 70);
+	border-radius: .2rem;
+	padding: 1rem;
+	-webkit-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
+	box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
+	white-space: pre-wrap;      /* CSS3 */   
+	white-space: -moz-pre-wrap; /* Firefox */    
+	white-space: -pre-wrap;     /* Opera <7 */   
+	white-space: -o-pre-wrap;   /* Opera 7 */    
+	word-wrap: break-word;      /* IE */
+}
