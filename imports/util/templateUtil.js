@@ -1,4 +1,5 @@
 import React from "react";
+import { makeStyles } from '@material-ui/core/styles';
 import { Meteor } from 'meteor/meteor';
 import {
 	Selection,
@@ -12,7 +13,20 @@ import {
 } from 'office-ui-fabric-react';
 import Map from '../ui/components/Map';
 import Note from '../ui/components/Note';
+import Avatar from '@material-ui/core/Avatar';
+import Chip from '@material-ui/core/Chip';
+import MapIcon from '@material-ui/icons/Map';
 
+const useStyles = makeStyles(theme => ({
+	root: {
+	  display: 'flex',
+	  justifyContent: 'center',
+	  flexWrap: 'wrap',
+	},
+	chip: {
+	  margin: theme.spacing(1),
+	},
+}));
 
 const DayPickerStrings = {
 	months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -45,29 +59,6 @@ function onRenderPlainCard(item) {
 	};
 	return (
 		<div className="bingmap">
-			<Map boundary={boundary}/>
-		</div>
-	);
-}
-
-function renderMap(item) {
-	if (!(item.street_address && item.city && item.postal_code && item.street_address !== '' && item.city !== '' && item.postal_code !== '')) {
-		return item.street_address || '';
-	}
-	const boundary = {
-		search: `${item.street_address}, ${item.city}, ${item.postal_code}`,
-		option: {
-			entityType: "PopulatedPlace"
-		},
-		polygonStyle: {
-			fillColor: "rgba(255, 255, 255, 0)",
-			strokeColor: "#a495b2",
-			strokeThickness: 2
-		}
-	};
-	return (
-		<div className="component--bingmap__container">
-			<div className="element--bingmap__address">{item.street_address}</div>
 			<Map boundary={boundary}/>
 		</div>
 	);
@@ -114,9 +105,6 @@ function getMinWidth(column) {
 			if (column.field === 'file_number' || column.field === 'child_id') {
 				return 70;
 			}
-			if (column.field === 'street_address') {
-				return 200;
-			}
 			return 150;
 	}
 }
@@ -126,6 +114,7 @@ export function getColumns() {
 	if (!RECORD_TEMPLATE) {
 		return [];
 	}
+	const classes = useStyles();
 	return RECORD_TEMPLATE.map(column => {
 		return {
 			key: column.field,
@@ -174,7 +163,24 @@ export function getColumns() {
 						);
 					default:
 						if (column.field === 'street_address') {
-							return renderMap(item);
+							const plainCardProps = {
+								onRenderPlainCard: onRenderPlainCard,
+								renderData: item
+							};
+							return (
+								<HoverCard plainCardProps={plainCardProps} instantOpenOnClick={true} type={HoverCardType.plain}>
+									{item['street_address'] && item['street_address'] !== '' ?
+										(
+											<Chip
+												icon={<MapIcon/>}
+												label={item[column.field]}
+												color="primary"
+												className={classes.chip}
+											/>
+										):''
+									}
+								</HoverCard>
+							);
 						}
 						if (column.field === 'other_notes') {
 							return (
