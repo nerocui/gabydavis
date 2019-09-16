@@ -21,23 +21,23 @@ const DetailedList = ({selection, items, onItemInvoked}) => {
 	return (
 		<Fabric>
 			<MarqueeSelection selection={selection}>
-			<DetailsList
-				items={items}
-				compact={false}
-				columns={getColumns()}
-				selectionMode={SelectionMode.multiple}
-				getKey={item => item._id}
-				setKey="set"
-				layoutMode={DetailsListLayoutMode.justified}
-				isHeaderVisible={true}
-				selection={selection}
-				selectionPreservedOnEmptyClick={true}
-				onItemInvoked={onItemInvoked}
-				enterModalSelectionOnTouch={true}
-				ariaLabelForSelectionColumn="Toggle selection"
-				ariaLabelForSelectAllCheckbox="Toggle selection for all items"
-				checkButtonAriaLabel="Row checkbox"
-			/>
+				<DetailsList
+					items={items}
+					compact={false}
+					columns={getColumns()}
+					selectionMode={SelectionMode.multiple}
+					getKey={item => item._id}
+					setKey="set"
+					layoutMode={DetailsListLayoutMode.justified}
+					isHeaderVisible={true}
+					selection={selection}
+					selectionPreservedOnEmptyClick={true}
+					onItemInvoked={onItemInvoked}
+					enterModalSelectionOnTouch={true}
+					ariaLabelForSelectionColumn="Toggle selection"
+					ariaLabelForSelectAllCheckbox="Toggle selection for all items"
+					checkButtonAriaLabel="Row checkbox"
+				/>
 			</MarqueeSelection>
 		</Fabric>
 	);

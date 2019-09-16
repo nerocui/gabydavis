@@ -7,4 +7,12 @@
 .page--inner__container {
 	height: calc(100vh - 44px);
 	overflow-y: auto;
+	.component--detailedlist__container {
+		height: 100%;
+		width: 100%;
+		overflow-x: scroll;
+	}
+	.ms-DetailsList {
+		height: calc(100vh - 44px);
+	}
 }
