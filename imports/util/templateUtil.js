@@ -8,9 +8,28 @@ import {
 	Persona,
 	PersonaSize,
 	Text,
+	Calendar, DayOfWeek, DateRangeType,
 } from 'office-ui-fabric-react';
 import Map from '../ui/components/Map';
 import Note from '../ui/components/Note';
+
+
+const DayPickerStrings = {
+	months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+	shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+	days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+	shortDays: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+	goToToday: 'Go to today',
+	weekNumberFormatString: 'Week number {0}',
+	prevMonthAriaLabel: 'Previous month',
+	nextMonthAriaLabel: 'Next month',
+	prevYearAriaLabel: 'Previous year',
+	nextYearAriaLabel: 'Next year',
+	prevYearRangeAriaLabel: 'Previous year range',
+	nextYearRangeAriaLabel: 'Next year range',
+	closeButtonAriaLabel: 'Close'
+};
+
 
 function onRenderPlainCard(item) {
 	const boundary = {
@@ -31,6 +50,51 @@ function onRenderPlainCard(item) {
 	);
 }
 
+function isValidDate(d) {
+	return d instanceof Date && !isNaN(d);
+}
+
+function onRenderCalendar(item) {
+	if (!isValidDate(item)) {
+		return '';
+	}
+	const [date, setDate] = React.useState(item);
+
+	const onSelection = () => {
+		setDate(item);
+	}
+
+	return (
+		<div className="component--calendar__container">
+			<Calendar
+				onSelectDate={onSelection}
+				isMonthPickerVisible={false}
+				dateRangeType={DateRangeType.Day}
+				value={date}
+				firstDayOfWeek={DayOfWeek.Sunday}
+				showGoToToday={false}
+				strings={DayPickerStrings}
+				isDayPickerVisible={true}
+				showWeekNumbers={true}
+			/>
+		</div>
+	)
+}
+
+function getMinWidth(column) {
+	switch (column.type) {
+		case 'date':
+			return 240;
+		case 'note':
+			return 100;
+		default:
+			if (column.field === 'file_number' || column.field === 'child_id') {
+				return 70;
+			}
+			return 150;
+	}
+}
+
 export function getColumns() {
 	const { RECORD_TEMPLATE } = Meteor.settings.public;
 	if (!RECORD_TEMPLATE) {
@@ -40,7 +104,7 @@ export function getColumns() {
 		return {
 			key: column.field,
 			name: column.display_name,
-			minWidth: 150,
+			minWidth: getMinWidth(column),
 			maxWidth: 200,
 			isRowHeader: true,
 			isResizable: true,
@@ -53,8 +117,6 @@ export function getColumns() {
 			onRender: (item) => {
 				switch (column.type) {
 					case 'people':
-						console.log('rendering people');
-						
 						return (
 							<div>
 								{item.people.map(person => {
@@ -79,9 +141,7 @@ export function getColumns() {
 							</div>
 						);
 					case 'date':
-						return (
-							<div>{new Date(item[column.field]).toDateString()}</div>
-						);
+						return onRenderCalendar(new Date(item[column.field]));
 					case 'note':
 						return (
 							<Note value={item[column.field]}/>
@@ -92,7 +152,6 @@ export function getColumns() {
 								onRenderPlainCard: onRenderPlainCard,
 								renderData: item
 							};
-							console.log('rendering street address');
 							return (
 								<HoverCard plainCardProps={plainCardProps} instantOpenOnClick={true} type={HoverCardType.plain}>
 									{item[column.field]}

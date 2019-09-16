@@ -243,7 +243,7 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
           let valueComp;
           if (!record) {
             // New record
-            if (column.type === "string") {
+            if (column.type === "string" || column.type === "note") {
               valueComp = (
                 <TextField
                   variant="outlined"
@@ -276,7 +276,7 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
             }
           } else {
             console.log("objectID:::", record.objectID);
-            if (column.type === "string") {
+            if (column.type === "string" || column.type === "note") {
               valueComp = (
                 <EditableTextfield
                   value={record[column.field] || " "}

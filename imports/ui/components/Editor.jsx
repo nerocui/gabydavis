@@ -71,7 +71,7 @@ const Editor = ({ columns, record, closeModal }) => {
           let valueComp;
           if (!record) {
             // New record
-            if (column.type === "string") {
+            if (column.type === "string" || column.type === "note") {
               valueComp = (
                 <TextField 
                   variant="outlined" 
@@ -86,6 +86,12 @@ const Editor = ({ columns, record, closeModal }) => {
             switch (column.type) {
               case "string":
                 valueComp = 
+                    <EditableTextfield
+                      value={record && record[column.field]}
+                    />;
+                  break;
+              case "note":
+                  valueComp = 
                     <EditableTextfield
                       value={record && record[column.field]}
                     />;
