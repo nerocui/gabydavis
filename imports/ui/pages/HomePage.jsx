@@ -8,24 +8,10 @@ import KEYID from "../../constants/key_id";
 import { ReactBingmaps } from "react-bingmaps";
 import algoliaSearch from "algoliasearch";
 import DetailedList from '../components/DetailedList';
-import {
-	Selection,
-	HoverCard,
-	HoverCardType,
-	PersonaInitialsColor,
-	Persona,
-	PersonaSize,
-	Text,
-} from 'office-ui-fabric-react';
 
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
-    this.selection = new Selection({
-      onSelectionChanged: () => {
-        this.props.selectItem(this.selection.getItems());
-      }
-    });
     this.onItemInvoked = this.onItemInvoked.bind(this);
   }
 
@@ -47,13 +33,12 @@ class HomePage extends React.Component {
       const client = algoliaSearch(algoliaKey.algoliaApplicationID, algoliaKey.algoliaAdminKey);
       const indexName = process.env.NODE_ENV === 'production' ? 'prod_gabydavis' : 'gaby_davis_records';
 	  const index = client.initIndex(indexName);
-	  this.props.search(index, this.props.searchTerm);
+	  this.props.search(index, "");
 	}
 	
     return (
 		<div className="page--inner__container">
 			<DetailedList
-				selection={this.selection}
 				items={this.props.items}
 				onItemInvoked={this.onItemInvoked}
 			/>
@@ -65,7 +50,6 @@ class HomePage extends React.Component {
 function mapStateToProps(state) {
   return {
 	keys: state.KeyState.keys,
-	searchTerm: state.SearchState.searchTerm,
   };
 }
 

@@ -4,6 +4,7 @@ import { Meteor } from "meteor/meteor";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
+import SearchResultPage from "../pages/SearchResultPage";
 import SettingsPage from "../pages/SettingsPage";
 import EditorPage from "../pages/EditPage";
 import ChatListPage from "../pages/chatListPage";
@@ -50,6 +51,7 @@ class Routes extends React.Component {
             <NavBar />
             <Switch>
               <PrivateRoute exact path="/home" component={HomePage} />
+              <PrivateRoute exact path="/search" component={SearchResultPage} />
               <PrivateRoute exact path="/settings" component={SettingsPage} />
               <PrivateRoute exact path="/add" component={EditorPage} />
               <PrivateRoute exact path="/profile" component={ProfilePage} />

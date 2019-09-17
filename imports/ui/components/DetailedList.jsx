@@ -15,9 +15,14 @@ import {
 } from 'office-ui-fabric-react';
 import { connect } from 'react-redux';
 import { getColumns } from '../../util/templateUtil';
+import { selectItem } from '../../actions';
 
-const DetailedList = ({selection, items, onItemInvoked}) => {
-
+const DetailedList = ({items, onItemInvoked, selectItem}) => {
+	const selection = new Selection({
+		onSelectionChanged: () => {
+			selectItem(selection.getSelection());
+		}
+	});
 	return (
 		<Fabric>
 			<MarqueeSelection selection={selection}>
@@ -26,7 +31,7 @@ const DetailedList = ({selection, items, onItemInvoked}) => {
 					compact={false}
 					columns={getColumns()}
 					selectionMode={SelectionMode.multiple}
-					getKey={item => item._id}
+					getKey={item => item.objectID}
 					setKey="set"
 					layoutMode={DetailsListLayoutMode.justified}
 					isHeaderVisible={true}
@@ -49,4 +54,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps)(DetailedList);
+export default connect(mapStateToProps, {selectItem})(DetailedList);

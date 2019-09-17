@@ -23,6 +23,14 @@ Meteor.methods({
       ...record
     });
   },
+  [API.RECORD_API.REMOVE](_id) {
+	if (!isAuthenticated()) {
+		throw new Meteor.Error("Not authenticated");
+	}
+	console.log('trying to ', _id);
+	Records.remove({_id});
+	index.deleteObject(_id);
+  },
   [API.RECORD_API.ADD_PERSON](_id, person) {
     if (!isAuthenticated()) {
       throw new Meteor.Error("Not authenticated");

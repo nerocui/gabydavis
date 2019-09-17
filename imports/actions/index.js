@@ -65,6 +65,7 @@ export function search(index, term) {
 			.then(({ hits }) => {
 				console.log("hits: ", hits);
 				dispatch(setRecords(hits));
+				dispatch(setSelected([]));
 			})
 			.catch(e => {
 				console.log('errors: ', e);

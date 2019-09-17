@@ -1,10 +1,14 @@
 import React from "react";
+import { Meteor } from 'meteor/meteor';
+import API from '../../constants/methods';
 import {
   CommandBar,
   initializeIcons,
   Stack,
   SearchBox,
-  Modal
+  Modal,
+  Dialog, DialogType, DialogFooter,
+  PrimaryButton, DefaultButton,
 } from "office-ui-fabric-react";
 import { connect } from "react-redux";
 import { Accounts } from "meteor/accounts-base";
@@ -64,7 +68,8 @@ class NavBar extends React.Component {
     this.state = {
       isSettingsOpen: false,
       isEditorOpen: false,
-      selectedRecord: null
+      selectedRecord: null,
+      deleteDialogOpen: false,
     };
     this.onAddRow = this.onAddRow.bind(this);
     this.onDeleteRow = this.onDeleteRow.bind(this);
@@ -76,6 +81,9 @@ class NavBar extends React.Component {
     this.navigateToEditor = this.navigateToEditor.bind(this);
     this.navigateToHome = this.navigateToHome.bind(this);
     this.navigateToProfile = this.navigateToProfile.bind(this);
+    this.openDeleteDialog = this.openDeleteDialog.bind(this);
+    this.closeDeleteDialog = this.closeDeleteDialog.bind(this);
+    this.onDeleteConfirm = this.onDeleteConfirm.bind(this);
   }
 
   closeSettings() {
@@ -92,6 +100,14 @@ class NavBar extends React.Component {
 
   closeSettings() {
     this.setState({ isSettingsOpen: false });
+  }
+
+  openDeleteDialog() {
+    this.setState({deleteDialogOpen: true});
+  }
+
+  closeDeleteDialog() {
+    this.setState({deleteDialogOpen: false});
   }
 
   navigateToHome() {
@@ -120,11 +136,19 @@ class NavBar extends React.Component {
   }
 
   onDeleteRow() {
-    console.log("delete row");
+    this.openDeleteDialog();
   }
 
   handleLogout() {
     Accounts.logout();
+  }
+
+  onDeleteConfirm() {
+    this.props.selectedItem.map(item => {
+      console.log("Trying to delete item: ", item);
+      Meteor.call(API.RECORD_API.REMOVE, item.objectID);
+    });
+    this.closeDeleteDialog();
   }
 
   render() {
@@ -188,6 +212,24 @@ class NavBar extends React.Component {
             closeModal={this.closeEditor}
           />
         </Modal>
+        <Dialog
+            hidden={!this.state.deleteDialogOpen}
+            onDismiss={this.closeDeleteDialog}
+            dialogContentProps={{
+              type: DialogType.close,
+              title: 'Delete Confirmation',
+              subText: `Do You Really Want To Delete This Record? Once Deleted, It Cannot Be Retrieved.`
+            }}
+            modalProps={{
+              isBlocking: true,
+              styles: { main: { maxWidth: 450 } }
+            }}
+          >
+            <DialogFooter>
+              <PrimaryButton onClick={this.onDeleteConfirm} text="Delete" />
+              <DefaultButton onClick={this.closeDeleteDialog} text="Cancel" />
+            </DialogFooter>
+          </Dialog>
       </div>
     );
   }
@@ -196,7 +238,8 @@ class NavBar extends React.Component {
 function mapStateToProps(state) {
   return {
     user: state.AuthState.user,
-    keys: state.KeyState.keys
+    keys: state.KeyState.keys,
+    selectedItem: state.RecordState.selected,
   };
 }
 
