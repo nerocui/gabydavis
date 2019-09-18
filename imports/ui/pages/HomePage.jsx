@@ -1,7 +1,5 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { Meteor } from "meteor/meteor";
-import { withTracker } from "meteor/react-meteor-data";
 import { connect } from "react-redux";
 import { selectItem, search } from "../../actions";
 import KEYID from "../../constants/key_id";
@@ -26,46 +24,32 @@ class HomePage extends React.Component {
   }
 
   render() {
-    if (this.props.keys && this.props.keys.length !== 0) {
-      console.log("Keys in chat list page: ", this.props.keys);
-	  
-	  const algoliaKey = this.props.keys.filter( key => { return key._id == "ALGOLIA"})[0].value;
-      const client = algoliaSearch(algoliaKey.algoliaApplicationID, algoliaKey.algoliaAdminKey);
-      const indexName = process.env.NODE_ENV === 'production' ? 'prod_gabydavis' : 'gaby_davis_records';
-	  const index = client.initIndex(indexName);
-	  this.props.search(index, "");
-	}
+    const algoliaKey = this.props.keys.filter( key => { return key._id == "ALGOLIA"})[0].value;
+    const client = algoliaSearch(algoliaKey.algoliaApplicationID, algoliaKey.algoliaAdminKey);
+    const indexName = process.env.NODE_ENV === 'production' ? 'prod_gabydavis' : 'gaby_davis_records';
+    const index = client.initIndex(indexName);
+    this.props.search(index, "");
 	
     return (
-		<div className="page--inner__container">
-			<DetailedList
-				items={this.props.items}
-				onItemInvoked={this.onItemInvoked}
-			/>
-		</div>
+      <div className="page--inner__container">
+        <DetailedList
+          items={this.props.items}
+          onItemInvoked={this.onItemInvoked}
+        />
+      </div>
     );
   }
 }
 
 function mapStateToProps(state) {
   return {
-	keys: state.KeyState.keys,
+	  keys: state.KeyState.keys,
   };
 }
-
-
-const HomePageWithTracker = withTracker(() => {
-  const features = Meteor.settings.public.FEATURE_FLAGS;
-  const isMapEnabled = features.filter(feature => feature.id === "USE_MAP")[0]
-    .enabled;
-  return {
-    isMapEnabled
-  };
-})(HomePage);
 
 const ConnectedHome = connect(
   mapStateToProps,
   {selectItem, search}
-)(HomePageWithTracker);
+)(HomePage);
 
 export default withRouter(({ history }) => <ConnectedHome history={history} />);

@@ -28,7 +28,7 @@ function mapStateToProps(state) {
 	return {
 		keys: state.KeyState.keys,
 		searchTerm: state.SearchState.searchTerm,
-	}
+	};
 }
 
 const ConnectedSearchBar = connect(mapStateToProps, {onSearchTermChange, search})(SearchBar);

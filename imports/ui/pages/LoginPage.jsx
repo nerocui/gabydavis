@@ -58,9 +58,6 @@ class LoginPage extends React.Component {
 
 
 	render() {
-		if (this.props.logged_in) {
-			return (<Redirect to='/home'/>);
-		}
 		return (
 			<div className="page--authpage-container page">
 				
@@ -81,15 +78,4 @@ class LoginPage extends React.Component {
 	}
 }
 
-function mapStateToProps(state) {
-	return {
-		logged_in: state.AuthState.logged_in,
-	};
-}
-
-const LoginPageContainer =  connect(mapStateToProps)(LoginPage);
-
-export default withRouter(({ history }) => (
-	<LoginPageContainer history={history} />
-));
-
+export default LoginPage;

@@ -17,7 +17,7 @@ const SearchResult = ({items, selectItem, history}) => {
 	};
 
 	return (
-		<div>
+		<div className="page--inner__container">
 			<DetailedList items={items} onItemInvoked={onItemInvoked}/>
 		</div>
 	);
