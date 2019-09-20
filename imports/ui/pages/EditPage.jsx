@@ -282,7 +282,7 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
                   value={record[column.field] || " "}
                   isNew={!record}
                   onValueSubmit={saveStringField(column.field, record.objectID)}
-                ></EditableTextfield>
+                />
               );
             } else if (column.type === "date") {
               // TODO -- need to double check once records is up.
