@@ -1,18 +1,18 @@
 [![CircleCI](https://circleci.com/gh/nerocui/gabydavis.svg?style=svg)](https://circleci.com/gh/nerocui/gabydavis)
-# Gaby Davis Fundation
-This is a CRM for the Gaby Davis Fundation. The main purpose of this project is to help the fundation to manage information about the families they helped. Gaby Davis Fundation currently use an Excel file for managing the records. This is not very efficient in a number of ways. The records are not easily searchable, and sharing admin access of the records becomes hard.
+# Gaby Davis Foundation
+This is a CRM for the Gaby Davis Foundation. The main purpose of this project is to help the Foundation to manage information about the families they helped. Gaby Davis Foundation currently use an Excel file for managing the records. This is not very efficient in a number of ways. The records are not easily searchable, and sharing admin access of the records becomes hard.
 
 This solution focus on solving this issue in a number of ways.
 ### Searching
 Everytime a record is entered into the database, the same record will also be pushed to Algolia to be indexed. When the user search for anything that's included in the records, the correct result will show up.
 
 ### Importing/Exporting
-The fundation already has a lot of data in the Excel file. The best and only way to transition to our solution is through importing. We wrote a number of parsers suited for each type of data in the spread sheet. User can just drag and drop their file in, as long as it's in the expected format, the data will all be imported into the database and pushed to algolia.
+The Foundation already has a lot of data in the Excel file. The best and only way to transition to our solution is through importing. We wrote a number of parsers suited for each type of data in the spread sheet. User can just drag and drop their file in, as long as it's in the expected format, the data will all be imported into the database and pushed to algolia.
 
 We also have plan to implement an export feature for the situation of the organization no longer want to use this solution. 
 
 ### Map
-Gaby Davis Fundation requested to have a Map feature to show the address of the families. This solution chose Bing Map for this feature. A map will be shown if the user hover over or click the families address. The same map will also be shown if the user click into the records' detail page. The reason why not all maps are always shown on the overview page is that each call to the map api counts toward the api quota.
+Gaby Davis Foundation requested to have a Map feature to show the address of the families. This solution chose Bing Map for this feature. A map will be shown if the user hover over or click the families address. The same map will also be shown if the user click into the records' detail page. The reason why not all maps are always shown on the overview page is that each call to the map api counts toward the api quota.
 
 ### Configuration
 We realize that the number/type of column may not stay forever same. Also other organization might want to adopt this software and customize for their needs. So the columns are configuration based. We define them in the settings.json file like shown in the template below, and the data renderer and parser will just do the job accordingly.
