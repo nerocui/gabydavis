@@ -97,7 +97,7 @@ function parseCell(value, parsedHeader) {
  * @param {CSV} csv
  * @returns {Records} [...{ id: string, value: string, valid: boolean, parsedHeader: ParsedHeader, originalValue: string, parser: function,}]
  */
-export const pasrseSheet = csv => {
+export const parseSheet = csv => {
   const rows = csv.split("\n");
   const grid = rows.map(row => row.split(","));
   const headers = grid[0];
