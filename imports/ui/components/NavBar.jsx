@@ -12,7 +12,6 @@ import {
 } from "office-ui-fabric-react";
 import { connect } from "react-redux";
 import { Accounts } from "meteor/accounts-base";
-import Editor from "../components/Editor";
 import { withRouter } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import algoliaSearch from "algoliasearch";
@@ -67,16 +66,12 @@ class NavBar extends React.Component {
     super(props);
     this.state = {
       isSettingsOpen: false,
-      isEditorOpen: false,
       selectedRecord: null,
       deleteDialogOpen: false,
     };
-    this.onAddRow = this.onAddRow.bind(this);
     this.onDeleteRow = this.onDeleteRow.bind(this);
     this.closeSettings = this.closeSettings.bind(this);
-    this.closeEditor = this.closeEditor.bind(this);
     this.openSettings = this.openSettings.bind(this);
-    this.openEditor = this.openEditor.bind(this);
     this.navigateToSettings = this.navigateToSettings.bind(this);
     this.navigateToEditor = this.navigateToEditor.bind(this);
     this.navigateToHome = this.navigateToHome.bind(this);
@@ -88,10 +83,6 @@ class NavBar extends React.Component {
 
   closeSettings() {
     this.setState({ isSettingsOpen: false });
-  }
-
-  closeEditor() {
-    this.setState({ isEditorOpen: false });
   }
 
   openSettings() {
@@ -124,15 +115,6 @@ class NavBar extends React.Component {
 
   navigateToProfile() {
     this.props.history.push("/profile");
-  }
-
-  openEditor() {
-    this.setState({ isEditorOpen: true });
-  }
-
-  onAddRow() {
-    this.setState({ selectedRecord: null });
-    this.openEditor();
   }
 
   onDeleteRow() {
@@ -202,16 +184,6 @@ class NavBar extends React.Component {
           onDismiss={this.closeSettings}
           isBlocking={false}
         ></Modal>
-        <Modal
-          isOpen={this.state.isEditorOpen}
-          onDismiss={this.closeEditor}
-          isBlocking={false}
-        >
-          <Editor
-            record={this.props.selectedRecord}
-            closeModal={this.closeEditor}
-          />
-        </Modal>
         <Dialog
             hidden={!this.state.deleteDialogOpen}
             onDismiss={this.closeDeleteDialog}
