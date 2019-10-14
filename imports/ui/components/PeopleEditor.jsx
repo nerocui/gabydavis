@@ -7,7 +7,6 @@ import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
 
 import MemberEditorCard from "./MemberEditorCard";
-import MemberDisplayCard from "./MemberDisplayCard";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -64,10 +63,7 @@ const PeopleEditor = ({people, onChange}) => {
       {people.map(person => {
         return (
           <Grid item key={person._id}>
-            {person.isNew ? 
-              <MemberEditorCard member={person} onDoneEdit={updateMember}/> :
-              <MemberDisplayCard member={person} onDelete={deleteMember}/>
-            }
+            <MemberEditorCard member={person} onDoneEdit={updateMember} onDelete={deleteMember}/>
           </Grid>
         )
       })}
