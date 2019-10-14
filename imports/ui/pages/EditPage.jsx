@@ -146,6 +146,10 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
     // modify takes (_id, field, value);
   };
 
+  const saveArrayField = (fieldID, objectID) => arrayToSave => {
+    Meteor.call(APIS.RECORD_API.MODIFY, objectID, fieldID, arrayToSave);
+  }
+
   const saveRecord = () => {
     Meteor.call(APIS.RECORD_API.INSERT, fullRecord);
     history.push("/");
@@ -296,7 +300,7 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
               valueComp = (
                 <PeopleEditor
                   people={record[column.field]}
-                  // onChange={updateArrayField(column.field)}
+                  onChange={saveArrayField(column.field, record.objectID)}
                 />
               );
             } else if (column.type === "boolean") {
