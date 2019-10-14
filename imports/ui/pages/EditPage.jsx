@@ -151,55 +151,6 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
     history.push("/");
   };
 
-  const fillForm = () => {
-    const propRecord = {
-      file_number: "011/19",
-      date_helped: new Date('1995-12-17T03:24:00'),
-      people: [
-        {
-          _id: "123456",
-          first_name: "John",
-          last_name: "Z",
-          role: "parent",
-          date_of_birth: new Date('1980-11-22T03:24:00')
-        },
-        {
-          _id: "123457",
-          first_name: "Jane",
-          last_name: "Z",
-          role: "parent",
-          date_of_birth: new Date('1980-11-22T03:24:00')
-        },
-        {
-          _id: "123458",
-          first_name: "Jo",
-          last_name: "Z",
-          role: "child",
-          date_of_birth: new Date('2000-11-22T03:24:00')
-        },
-      ],
-      child_id: "123458",
-      street_address: "3275 Kingsway",
-      city: "Vancouver",
-      postal_code: "V5R 5K4",
-      phone_number: "111 222 3456",
-      cell_phone_number: "222 333 4567",
-      email: "johnz@mail.com",
-      cancer_type: "Z",
-      diagnosis_date: new Date('2011-11-20T03:24:00'),
-      length_of_treatment: "10",
-      treatment_notes: "N/A",
-      relapse: false,
-      date_of_relapse: new Date('2011-11-20T03:24:00'),
-      date_of_application: new Date('2012-11-20T03:24:00'),
-      date_of_visit: new Date('2012-11-20T03:24:00'),
-      location_of_visit: "RMH",
-      social_worker: "Angela",
-      heaven_date: new Date('2019-08-20T03:24:00'),
-      other_notes: "N/A",
-    }
-    setFullRecord(propRecord);
-  }
 
   if (record) {
     boundary = {
@@ -325,7 +276,6 @@ const Editor = ({ columns, history, keys, isMapEnabled }) => {
 
         {!record && (
           <Stack horizontal horizontalAlign="end" styles={buttonBarStyles}>
-            <DefaultButton onClick={fillForm}>Fill form</DefaultButton>
             <PrimaryButton onClick={saveRecord}>Save</PrimaryButton>
             <DefaultButton onClick={() => history.goBack()}>Cancel</DefaultButton>
           </Stack>
