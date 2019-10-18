@@ -1,21 +1,21 @@
 import React from "react";
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import Dropzone from "../components/dropzone.jsx";
 import { DefaultButton } from "office-ui-fabric-react";
 import xlsx from "xlsx";
 import { Meteor } from "meteor/meteor";
 import ApiContastants from "../../constants/methods.js";
 
-import recordParser from "../../util/recordParser.js";
+import recordParser, { parseSheet } from "../../util/recordParser.js";
 
 import SuccessNotification from "../components/SuccessNotification";
 import { Accounts } from "meteor/accounts-base";
-import { importRecords } from '../../actions';
+import { importRecords } from "../../actions";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import CardMedia from '@material-ui/core/CardMedia';
+import CardMedia from "@material-ui/core/CardMedia";
 
 class SettingsPage extends React.Component {
   constructor(props) {
@@ -40,139 +40,15 @@ class SettingsPage extends React.Component {
       // if we have sheets then go through each sheet..
       parsedData.SheetNames.forEach(sheetName => {
         const sheet = parsedData.Sheets[sheetName];
-        const parsedSheet = xlsx.utils.sheet_to_json(sheet);
-        for (const row in parsedSheet) {
-          const record = new Object();
-          record["people"] = [];
-          for (const key in parsedSheet[row]) {
-            switch (key) {
-              case "File Number":
-                record["file_number"] = parsedSheet[row][key];
-                break;
-              case "Date of Application":
-                if (isNaN(new Date(parsedSheet[row][key]).getTime())) {
-                  record["date_of_application"] = null;
-                } else {
-                  record["date_of_application"] = new Date(
-                    parsedSheet[row][key]
-                  );
-                }
-                break;
-              case "Date Helped":
-                if (isNaN(new Date(parsedSheet[row][key]).getTime())) {
-                  record["date_helped"] = null;
-                } else {
-                  record["date_helped"] = new Date(parsedSheet[row][key]);
-                }
-                break;
-              case "Child":
-                const child = recordParser.parseChild(parsedSheet[row][key]);
-                record["people"].push(child);
-                record["child_id"] = child["_id"];
-                break;
-              case "Date of Birth":
-                if (isNaN(new Date(parsedSheet[row][key]).getTime())) {
-                  record["date_of_birth"] = null;
-                } else {
-                  record["date_of_birth"] = new Date(
-                    parsedSheet[row][key]
-                  );
-                }
-                break;
-              case "Parents":
-                record["people"] = [
-                  ...record["people"],
-                  ...recordParser.parseParents(parsedSheet[row][key])
-                ];
-                break;
-              case "Cancer Type":
-                record["cancer_type"] = parsedSheet[row][key];
-                break;
-              case "Diagnosis Date":
-                if (isNaN(new Date(parsedSheet[row][key]).getTime())) {
-                  record["diagnosis_date"] = null;
-                } else {
-                  record["diagnosis_date"] = new Date(
-                    parsedSheet[row][key]
-                  );
-                }
-                break;
-              case "Length of Treatment":
-                record["length_of_treatment"] = recordParser.parseLengthOfTreatment(parsedSheet[row][key]);
-                break;
-              case "Treatment Notes":
-                record["treatment_notes"] = parsedSheet[row][key];
-                break;
-              case "Heaven Date":
-                if (isNaN(new Date(parsedSheet[row][key]).getTime())) {
-                  record["heaven_date"] = null;
-                } else {
-                  record["heaven_date"] = new Date(parsedSheet[row][key]);
-                }
-                break;
-              case "Relapse":
-                record["relapse"] = parsedSheet[row][key];
-                break;
-              case "Date of Relapse":
-                if (isNaN(new Date(parsedSheet[row][key]).getTime())) {
-                  record["date_of_relapse"] = null;
-                } else {
-                  record["date_of_relapse"] = new Date(
-                    parsedSheet[row][key]
-                  );
-                }
-                break;
-              case "Street Address":
-                record["street_address"] = parsedSheet[row][key];
-                break;
-              case "City":
-                record["city"] = parsedSheet[row][key];
-                break;
-              case "Postal Code":
-                record["postal_code"] = parsedSheet[row][key];
-                break;
-              case "Phone Number":
-                record["phone_number"] = parsedSheet[row][key];
-                break;
-              case "Cell Phone Number":
-                record["cell_phone_number"] = parsedSheet[row][key];
-                break;
-              case "Email":
-                record["email"] = parsedSheet[row][key];
-                break;
-              case "Siblings":
-                record["people"] = [
-                  ...record["people"],
-                  ...recordParser.parseSiblings(parsedSheet[row][key])
-                ];
-                break;
-              case "Location of Visit":
-                record["location_of_visit"] = parsedSheet[row][key];
-                break;
-              case "Social Worker":
-                record["social_worker"] = parsedSheet[row][key];
-                break;
-              case "Other notes":
-                record["other_notes"] = parsedSheet[row][key];
-                break;
-            }
-          }
-          records.push(record);
-        }
+        records = parseSheet(xlsx.utils.sheet_to_json(sheet));
       });
-
-      // Make meteor call
-      //console.log(records);
-      // for (const key in records) {
-      //   Meteor.call(ApiContastants.RECORD_API.INSERT, records[key]);
-      // }
-      this.setState({
-        completed: true
-      });
-      this.props.importRecords(records);
-      this.props.history.push('/preview');
     }
-  };
+    this.setState({
+      completed: true
+    });
+    this.props.importRecords(records);
+    this.props.history.push("/preview");
+  }
 
   handleChange(files) {
     files.forEach(file => {
@@ -205,7 +81,7 @@ class SettingsPage extends React.Component {
         <div>
           <Card>
             <CardMedia
-              style={{height:100, width:100}}
+              style={{ height: 100, width: 100 }}
               image="https://www.canadahelps.org/uploads/CACHE/images/image/4/0181/ab9ebb11b00147209c69967022356238-gaby-davis-logo/29064946a80fdf8836da7d077de99a76.jpeg"
               title="logo"
             />
@@ -242,6 +118,11 @@ class SettingsPage extends React.Component {
   }
 }
 
-const ConnectedSettingsPage = connect(null, {importRecords})(SettingsPage);
+const ConnectedSettingsPage = connect(
+  null,
+  { importRecords }
+)(SettingsPage);
 
-export default withRouter(({history}) => <ConnectedSettingsPage history={history}/>)
+export default withRouter(({ history }) => (
+  <ConnectedSettingsPage history={history} />
+));
