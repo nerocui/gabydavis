@@ -24,26 +24,23 @@ import {
 
 export default function MaterialUIPickers(props) {
   const [selectedDate, setSelectedDate] = React.useState(props.selectedDate);
-  const [isOpen, setDisplayState] = React.useState(false);
 
   function handleDateChange(date) {
     setSelectedDate(date);
     props.onDateSubmit(date);
-    setDisplayState(false);
   }
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDatePicker
-        open={isOpen}
         disableToolbar
         variant="inline"
         format="MM/dd/yyyy"
         id="date-picker-inline"
         label={props.fieldLabel}
         value={selectedDate}
-        onClick={() => setDisplayState(!isOpen)}
         onChange={handleDateChange}
+        autoOk
         KeyboardButtonProps={{
           "aria-label": "change date"
         }}
