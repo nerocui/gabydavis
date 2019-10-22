@@ -7,6 +7,7 @@ import NavBar from "../components/NavBar";
 import { createBrowserHistory } from "history";
 import PrivateRoute from "./PrivateRoute";
 import ProfilePage from "../pages/ProfilePage";
+import ImportPreviewPage from '../pages/ImportPreviewPage';
 
 const history = createBrowserHistory();
 
@@ -19,6 +20,7 @@ const Routes = () => (
           <PrivateRoute exact path="/search" component={SearchResultPage} />
           <PrivateRoute exact path="/add" component={EditorPage} />
           <PrivateRoute exact path="/profile" component={ProfilePage} />
+          <PrivateRoute exact path="/preview" component={ImportPreviewPage} />
         </Switch>
       </div>
   </Router>

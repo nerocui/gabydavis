@@ -41,7 +41,18 @@ export function setRecords(items) {
 }
 
 
+function setImportedRecords(items) {
+	return {
+		type: TYPES.SET_IMPORTED_RECORDS,
+		payload: items,
+	};
+}
 
+export function importRecords(items) {
+	return dispatch => {
+		dispatch(setImportedRecords(items));
+	};
+}
 
 export function setSearchTerm(term) {
 	return {
