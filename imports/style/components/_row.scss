@@ -30,4 +30,7 @@
 
 .element--preview__cell {
 	border: 1px solid grey;
+	&.red {
+		background-color: red;
+	}
 }

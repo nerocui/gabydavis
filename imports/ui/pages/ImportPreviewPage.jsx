@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Stack } from 'office-ui-fabric-react';
 
-const ImportPreviewPage = (records) => {
+const ImportPreviewPage = ({records}) => {
 	const renderRow = record => {
 		const cells = [];
 		for (const key in record) {
 			cells.push(record[key]);
 		}
-		return (        
+		return (
 			<React.Fragment>
 				{cells.map(cell => {
 					console.log(cell);
